@@ -29,6 +29,6 @@ angular.module('routingApp', ['ngRoute'])
             .when('/result', {
                 templateUrl: 'result.html',
                 controller: 'result'
-            })
-            .otherwise({redirectTo: '/home'});
+            });
+            // .otherwise({redirectTo: '/home'});
 });
