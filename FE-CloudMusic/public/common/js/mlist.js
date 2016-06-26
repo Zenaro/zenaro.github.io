@@ -198,7 +198,7 @@ define( function ( require, exports, module ) {
 	}
 
 	function getMInfo (data) {
-		var json = require('../data/list');
+		var json = require('./list');
 		for (key in json) {
 			if (json[key].id == data || json[key].src == data) {
 				return json[key];

@@ -34,7 +34,7 @@ define([
         duration: 215
     },
     {
-        name: 'Glassy Sky (琉璃夜空)--《东京喰种第二话》',
+        name: 'Glassy Sky (琉璃夜空)--《东京喰种》',
         master: 'Donna Burke',
         id: '28',
         src: 'http://7xstax.com1.z0.glb.clouddn.com/DonnaBurke-GlassySky.mp3',

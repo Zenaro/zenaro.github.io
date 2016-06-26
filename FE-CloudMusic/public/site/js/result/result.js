@@ -66,7 +66,6 @@ define(function (require, exports, module) {
                         $('.main .content ul li').removeClass('active').eq(lrc_i).addClass('active');
                         lrc_i++;
                         if (lrc_i > 10) {
-                            console.log('gege');
                             var temp = (10 - lrc_i) * 25 + 'px';
                             $('.main .content ul').animate({top: temp});
                         }

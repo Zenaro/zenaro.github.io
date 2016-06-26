@@ -16,7 +16,7 @@ define(function (require, exports, module) {
             this.audio = $('audio')[0];
             this.audio.volume = $('.play-ctrl .cbar .cur').height() / 100 ;
             this._bind();                   // 启动事件监听器
-            this.json = require('../data/list');
+            this.json = require('./list');
         },
 
         // init方法，同时对外提供
@@ -94,15 +94,42 @@ define(function (require, exports, module) {
                 return dom;
             }
         },
+
         /*  ---------- private -------- */
         _bind: function () {
             var self = this,
-                isLock = false;
+                draggable = false,
+                dirX = 0,
+                dirY = 0,
+                intL = 0,
+                intB = 0,
+                windowH = 0,
+                windowW = 0;
             // ----- DOM 委托
             $( 'body' ).on('click', function() {
-                $('.play-ctrl .cbar').hide();
                 $('.audio-player .table').fadeOut();
                 $('.audio-player .slide').fadeOut();
+
+            }).on({
+                mousemove: function (event) {
+                    if (draggable == true) {
+                        $(this).css('overflow', 'hidden');
+                        var e = event || window.event,
+                            X = e.screenX,
+                            Y = e.screenY,
+                            resultX = intL + X - dirX,
+                            resultY = intB + dirY - Y;
+                        e.preventDefault();
+                        if (resultX > 0 && resultY > 0 && resultX < windowW && resultY < windowH) {
+                            $('.audio-player').css({'left': intL + X - dirX, 'bottom': intB + dirY - Y});
+                        }
+                    }
+                },
+                mouseup: function () {
+                    $(this).css('overflow', 'scroll');
+                    draggable = false;
+                    $('.audio-player .center-btn').css('cursor', 'pointer').fadeTo('fast', 1);
+                }
 
             }).on('click', 'a', function (event) {
                 var e = event || window.event;
@@ -111,23 +138,30 @@ define(function (require, exports, module) {
             }).on('click', '.audio-player', function (event) {
                 var e = event || window.event;
                 e.stopPropagation();
-
-            }).on('mouseover', '.audio-player .center-btn', function () {
-                $('.audio-player .slide').fadeIn();
-
-            }).on('click', '.audio-player .slide', function () {
-                $('.table').hide();
-                $('.play-ctrl .cbar').hide();
             });
 
-            $(this.global).on('click', '.fix-lock a', function() {
-                if ( !isLock ) {
-                    $(this).attr('class', 'lock');
-                    isLock = true;
-                } else {
-                    $(this).attr('class', 'unlock');
-                    isLock = false;
+            $(this.global).on({
+                mousedown: function (event) {
+                    var _this = this,
+                        e = event || window.event;
+                    $('.audio-player .table').fadeOut('fast');
+                    $('.audio-player .slide').fadeOut('fast');
+                    $(_this).fadeTo('fast', 0.8);
+                    draggable = true;
+                    dirX = e.screenX - parseInt($(this).css('left'));
+                    dirY = e.screenY - parseInt($(this).css('top'));
+                    intL = parseInt($(self.global).css('left'));
+                    intB = parseInt($(self.global).css('bottom'));
+                    windowH = $(window).height();
+                    windowW = $(window).width();
+                },
+                mouseover: function () {
+                    $(this).css('cursor', 'move');
+                    !draggable && $('.audio-player .slide').fadeIn();
                 }
+
+            }, '.center-btn').on('click', '.slide', function () {
+                $('.play-ctrl .cbar').hide();
 
             }).on('click', '.play-btns a.play', function() { //暂停/播放
                 if(self.audio.src === '') {
@@ -215,7 +249,9 @@ define(function (require, exports, module) {
                     $(this).siblings('.lop-hint').hide();
                 }
 
-            }, '.play-ctrl a#data-lop').on('click', '.play-ctrl span.music-list', function() {
+            }, '.play-ctrl a#data-lop').on('click', '.play-ctrl span.music-list', function(event) {
+                var e = event || window.event;
+                e.stopPropagation();
                 $('.table').toggle();
             });
 
@@ -301,7 +337,7 @@ define(function (require, exports, module) {
     }
 
     function getMInfo (data) {
-        var json = require('../data/list');
+        var json = require('./list');
         for (key in json) {
             if (json[key].id == data || json[key].src == data) {
                 return json[key];

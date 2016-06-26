@@ -13,4 +13,5 @@ define(function(require) {
 
     var MList = require('../../../common/js/mlist');
     MList.render();
+
 });
