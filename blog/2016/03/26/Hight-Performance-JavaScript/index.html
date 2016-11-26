@@ -1,0 +1,887 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="最近翻看了泽卡斯的《高性能JavaScript》，受益颇深，就顺手记录了下读后感
+模块 1  加载使用加载而不是引入的形式来处理外部的JS文件123456789101112131415161718192021function loadScript(url, callback) &amp;#123;	var script = document.createElement(&quot;script&quot;);	script">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高性能 JavaScript">
+<meta property="og:url" content="http://zenaro.github.io/blog/2016/03/26/Hight-Performance-JavaScript/index.html">
+<meta property="og:site_name" content="Zenaro的博客">
+<meta property="og:description" content="最近翻看了泽卡斯的《高性能JavaScript》，受益颇深，就顺手记录了下读后感
+模块 1  加载使用加载而不是引入的形式来处理外部的JS文件123456789101112131415161718192021function loadScript(url, callback) &amp;#123;	var script = document.createElement(&quot;script&quot;);	script">
+<meta property="og:image" content="http://7xstax.com1.z0.glb.clouddn.com/high-performance.png">
+<meta property="og:updated_time" content="2016-04-29T13:55:50.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高性能 JavaScript">
+<meta name="twitter:description" content="最近翻看了泽卡斯的《高性能JavaScript》，受益颇深，就顺手记录了下读后感
+模块 1  加载使用加载而不是引入的形式来处理外部的JS文件123456789101112131415161718192021function loadScript(url, callback) &amp;#123;	var script = document.createElement(&quot;script&quot;);	script">
+<meta name="twitter:image" content="http://7xstax.com1.z0.glb.clouddn.com/high-performance.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 高性能 JavaScript | Zenaro的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5ad2199c180bcbea496739c5bfd03512";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zenaro的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Stay hungry, stay foolish</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高性能 JavaScript
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-26T18:38:30+08:00" content="2016-03-26">
+              2016-03-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/03/26/Hight-Performance-JavaScript/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/26/Hight-Performance-JavaScript/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/03/26/Hight-Performance-JavaScript/"class="leancloud_visitors" data-flag-title="高性能 JavaScript">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xstax.com1.z0.glb.clouddn.com/high-performance.png" alt="Javascript"></p>
+<p>最近翻看了泽卡斯的《高性能JavaScript》，受益颇深，就顺手记录了下读后感</p>
+<h2 id="模块-1-加载"><a href="#模块-1-加载" class="headerlink" title="模块 1  加载"></a>模块 1  加载</h2><h3 id="使用加载而不是引入的形式来处理外部的JS文件"><a href="#使用加载而不是引入的形式来处理外部的JS文件" class="headerlink" title="使用加载而不是引入的形式来处理外部的JS文件"></a>使用加载而不是引入的形式来处理外部的JS文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> loadScript(url, callback) &#123;</span><br><span class="line">	var script = document.createElement(<span class="string">"script"</span>);</span><br><span class="line">	script.type = <span class="string">"text/javascript"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (script.readyState) &#123;		//IE浏览器下</span><br><span class="line">		script.onreadystatechange = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">			<span class="keyword">if</span> (script.readyState == <span class="string">"loaded"</span> || <span class="string">"complete"</span>) &#123;</span><br><span class="line">				script.onreadystatechange = null;</span><br><span class="line">				callback();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;			//chrome FireFox...</span><br><span class="line">		script.onload = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">			callback();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	script.src = url;</span><br><span class="line">	document.getElementsByTagName(<span class="string">'head'</span>)[0].appendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="模块-2-数据访问"><a href="#模块-2-数据访问" class="headerlink" title="模块 2  数据访问"></a>模块 2  数据访问</h2><h3 id="直接量-gt-变量-gt-数组-gt-对象-访问速度由高到低"><a href="#直接量-gt-变量-gt-数组-gt-对象-访问速度由高到低" class="headerlink" title="直接量 &gt; 变量 &gt; 数组 &gt; 对象 (访问速度由高到低)"></a>直接量 &gt; 变量 &gt; 数组 &gt; 对象 (访问速度由高到低)</h3><h3 id="对于每种类型，又有-局部变量-gt-全局变量"><a href="#对于每种类型，又有-局部变量-gt-全局变量" class="headerlink" title="对于每种类型，又有 局部变量 &gt; 全局变量"></a>对于每种类型，又有 局部变量 &gt; 全局变量</h3><p>对于不同类型的数据，浏览器处理起来的速度是有所差异的。<br>了解了它们的访问速度排名，在编写JavaScript时便多了一份随手优化性能的意识</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br><span class="line"></span><br><span class="line">//不好的写法</span><br><span class="line"><span class="keyword">for</span>(i = 0; i &lt; document.getElementsByTagName(<span class="string">'li'</span>).length; i++) &#123;</span><br><span class="line">	// dosomething</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码中每次for循环都需要访问document这个全局变量，而且还得访问并计算li的长度，看起来相当繁琐，也耗费性能。<br>分析一下便知道，document.getElementsByTagName(‘li’)在循环中访问次数较高，可先用一个变量将其存放起来（如下）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br><span class="line">var li = document.getElementsByTagName(<span class="string">'li'</span>);</span><br><span class="line">//较好的写法</span><br><span class="line"><span class="keyword">for</span>(i = 0; i &lt; li.length; i++) &#123;</span><br><span class="line">	//dosomething</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果深究下去还会发现，length在循环中仅仅相当于一个常量，把li的length直接赋值给某个变量效果更好（这取决于你的循环中是否还需调用li这个对象）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//推荐的写法</span><br><span class="line"><span class="keyword">for</span>(var i = 0, length = var li = document.getElementsByTagName(<span class="string">'li'</span>); i &lt; li.length; i++) &#123;</span><br><span class="line">	//dosomething</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>透过小例子看大项目，这感觉不赖吧。关于JavaScript还有一些其他的小秘密，我们继续上菜</p>
+<h2 id="模块-3-DOM编程"><a href="#模块-3-DOM编程" class="headerlink" title="模块 3  DOM编程"></a>模块 3  DOM编程</h2><h3 id="1-重绘与重排的开销问题"><a href="#1-重绘与重排的开销问题" class="headerlink" title="1) 重绘与重排的开销问题"></a>1) 重绘与重排的开销问题</h3><p>对于重绘和重排大家应该不陌生，DOM操作往往成为一个项目性能的瓶颈。<br>相对于Object、Array操作，DOM的访问开销直接升上了几个量级，这还不包括随后的修改DOM。<br>对于浏览器，渲染出一颗DOM树通常是在对html遍历了一次之后（table需要多次），这是一件很吃力的事情。以下是几个引起浏览器的重排：<br>a DOM元素的几何属性变化<br>b DOM树的结构变化<br>c 获取某些属性时（别惊讶）</p>
+<h3 id="2-修改DOM操作"><a href="#2-修改DOM操作" class="headerlink" title="2) 修改DOM操作"></a>2) 修改DOM操作</h3><p>削减DOM操作看起来是件重要的事情，对于无法避免的时候，在操作DOM时就得花些心思了：<br>第一步，先使元素脱离文档流<br>第二步，对其应用多重改变<br>最后, 再将其带回文档中。</p>
+<h3 id="3-IE-和-hover"><a href="#3-IE-和-hover" class="headerlink" title="3) IE 和 :hover"></a>3) IE 和 :hover</h3><h3 id="4-事件绑定转为事件委托"><a href="#4-事件绑定转为事件委托" class="headerlink" title="4) 事件绑定转为事件委托"></a>4) 事件绑定转为事件委托</h3><p>~</p>
+<h2 id="模块-4-算法"><a href="#模块-4-算法" class="headerlink" title="模块 4  算法"></a>模块 4  算法</h2><h3 id="1-for的倒序输出，-达夫设备"><a href="#1-for的倒序输出，-达夫设备" class="headerlink" title="1) for的倒序输出， 达夫设备"></a>1) for的倒序输出， 达夫设备</h3><h3 id="2-查找表-gt-switch-gt-if-else-gt-foreach"><a href="#2-查找表-gt-switch-gt-if-else-gt-foreach" class="headerlink" title="2) 查找表 &gt; switch &gt; if else &gt; foreach"></a>2) 查找表 &gt; switch &gt; if else &gt; foreach</h3><p>~</p>
+<h2 id="模块-5-界面响应"><a href="#模块-5-界面响应" class="headerlink" title="模块 5 界面响应"></a>模块 5 界面响应</h2><p>单个JS回应用户，应在100ms内完成</p>
+<p>以上为笔记</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/03/26/install-express/" rel="next" title="windows下安装express的艰辛之路">
+                <i class="fa fa-chevron-left"></i> windows下安装express的艰辛之路
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/04/23/web-front-end/" rel="prev" title="前端web的修行之路">
+                前端web的修行之路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/03/26/Hight-Performance-JavaScript/"
+     data-title="高性能 JavaScript"
+     data-content=""
+     data-url="http://zenaro.github.io/blog/blog/2016/03/26/Hight-Performance-JavaScript/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/26/Hight-Performance-JavaScript/"
+           data-title="高性能 JavaScript" data-url="http://zenaro.github.io/blog/blog/2016/03/26/Hight-Performance-JavaScript/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/default.png"
+               alt="Zenaro" />
+          <p class="site-author-name" itemprop="name">Zenaro</p>
+          <p class="site-description motion-element" itemprop="description">web前端</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-1-加载"><span class="nav-number">1.</span> <span class="nav-text">模块 1  加载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用加载而不是引入的形式来处理外部的JS文件"><span class="nav-number">1.1.</span> <span class="nav-text">使用加载而不是引入的形式来处理外部的JS文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-2-数据访问"><span class="nav-number">2.</span> <span class="nav-text">模块 2  数据访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接量-gt-变量-gt-数组-gt-对象-访问速度由高到低"><span class="nav-number">2.1.</span> <span class="nav-text">直接量 > 变量 > 数组 > 对象 (访问速度由高到低)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于每种类型，又有-局部变量-gt-全局变量"><span class="nav-number">2.2.</span> <span class="nav-text">对于每种类型，又有 局部变量 > 全局变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-3-DOM编程"><span class="nav-number">3.</span> <span class="nav-text">模块 3  DOM编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-重绘与重排的开销问题"><span class="nav-number">3.1.</span> <span class="nav-text">1) 重绘与重排的开销问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改DOM操作"><span class="nav-number">3.2.</span> <span class="nav-text">2) 修改DOM操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-IE-和-hover"><span class="nav-number">3.3.</span> <span class="nav-text">3) IE 和 :hover</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-事件绑定转为事件委托"><span class="nav-number">3.4.</span> <span class="nav-text">4) 事件绑定转为事件委托</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-4-算法"><span class="nav-number">4.</span> <span class="nav-text">模块 4  算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-for的倒序输出，-达夫设备"><span class="nav-number">4.1.</span> <span class="nav-text">1) for的倒序输出， 达夫设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查找表-gt-switch-gt-if-else-gt-foreach"><span class="nav-number">4.2.</span> <span class="nav-text">2) 查找表 > switch > if else > foreach</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-5-界面响应"><span class="nav-number">5.</span> <span class="nav-text">模块 5 界面响应</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span>Copyright </span>
+  <span class="author" itemprop="copyrightHolder">Zenaro</span>
+  <span itemprop="copyrightYear">2016</span>
+</div>
+
+<div class="powered-by">
+  由 <a target="_blank" class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  我的 Github 项目
+  <a class="theme-link" href="https://github.com/Zenaro">
+    Github.Zenaro
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+
+
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/blog/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zenaro"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+
+</body>
+</html>
