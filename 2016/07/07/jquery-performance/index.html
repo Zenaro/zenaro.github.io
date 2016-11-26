@@ -57,19 +57,16 @@
 
 
 
-<meta name="description" content="jquery优化是个值得总结的点。在前面的日志（高性能JavaScript）里lz稍微记录了原生Javascript的性能优化方向。这一次则还要讨论在JQuery里中，有哪些新奇的常识可以帮助我们提高性能。
-选择最新版本的JQuery将会在性能上有质的飞跃，如果感兴趣可以参考Jquery官网上对于每个版本的性能测试。可以，这很基础，但在实际的开发的时候我们往往会忘记了这个重要的点。（前端方案太多了">
+<meta name="description" content="jquery优化笔记收录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="让jquery再快一点">
 <meta property="og:url" content="http://zenaro.github.io/2016/07/07/jquery-performance/index.html">
 <meta property="og:site_name" content="Zenaro的博客">
-<meta property="og:description" content="jquery优化是个值得总结的点。在前面的日志（高性能JavaScript）里lz稍微记录了原生Javascript的性能优化方向。这一次则还要讨论在JQuery里中，有哪些新奇的常识可以帮助我们提高性能。
-选择最新版本的JQuery将会在性能上有质的飞跃，如果感兴趣可以参考Jquery官网上对于每个版本的性能测试。可以，这很基础，但在实际的开发的时候我们往往会忘记了这个重要的点。（前端方案太多了">
-<meta property="og:updated_time" content="2016-07-18T12:13:28.000Z">
+<meta property="og:description" content="jquery优化笔记收录。">
+<meta property="og:updated_time" content="2016-11-26T03:31:51.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="让jquery再快一点">
-<meta name="twitter:description" content="jquery优化是个值得总结的点。在前面的日志（高性能JavaScript）里lz稍微记录了原生Javascript的性能优化方向。这一次则还要讨论在JQuery里中，有哪些新奇的常识可以帮助我们提高性能。
-选择最新版本的JQuery将会在性能上有质的飞跃，如果感兴趣可以参考Jquery官网上对于每个版本的性能测试。可以，这很基础，但在实际的开发的时候我们往往会忘记了这个重要的点。（前端方案太多了">
+<meta name="twitter:description" content="jquery优化笔记收录。">
 
 
 
@@ -307,9 +304,7 @@
       
 
       
-        <h3 id="jquery优化是个值得总结的点。"><a href="#jquery优化是个值得总结的点。" class="headerlink" title="jquery优化是个值得总结的点。"></a>jquery优化是个值得总结的点。</h3><p>在前面的日志（高性能JavaScript）里lz稍微记录了原生Javascript的性能优化方向。这一次则还要讨论在JQuery里中，有哪些新奇的常识可以帮助我们提高性能。</p>
-<p>选择最新版本的JQuery将会在性能上有质的飞跃，如果感兴趣可以参考Jquery官网上对于每个版本的性能测试。可以，这很基础，但在实际的开发的时候我们往往会忘记了这个重要的点。（前端方案太多了，哪有心思顾及JQuery版本 ==）</p>
-<a id="more"></a>
+        <h3 id="jquery优化笔记收录。"><a href="#jquery优化笔记收录。" class="headerlink" title="jquery优化笔记收录。"></a>jquery优化笔记收录。</h3><a id="more"></a>
 <h4 id="总是从-id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。"><a href="#总是从-id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。" class="headerlink" title="总是从#id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。"></a>总是从#id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#target'</span>);</span><br></pre></td></tr></table></figure>
 <p>或者从ID选择器继承来选择多个元素:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#target p'</span>).hide();</span><br></pre></td></tr></table></figure></p>
 <h4 id="在class前面使用tag"><a href="#在class前面使用tag" class="headerlink" title="在class前面使用tag"></a>在class前面使用tag</h4><p>jQuery中第二快的选择器就是tag选择器，因为它和直接来自于原生的Javascript方法getElementByTagName()。所以最好总是用tag来修饰class。这是第二快</p>
@@ -500,7 +495,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery优化是个值得总结的点。"><span class="nav-number">1.</span> <span class="nav-text">jquery优化是个值得总结的点。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总是从-id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。"><span class="nav-number">1.1.</span> <span class="nav-text">总是从#id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在class前面使用tag"><span class="nav-number">1.2.</span> <span class="nav-text">在class前面使用tag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jQuery中class选择器是最慢的，因为在IE浏览器下它会遍历所有的DOM节点。尽量避免使用class选择器。还有注意不要用tag来修饰ID。"><span class="nav-number">1.3.</span> <span class="nav-text">jQuery中class选择器是最慢的，因为在IE浏览器下它会遍历所有的DOM节点。尽量避免使用class选择器。还有注意不要用tag来修饰ID。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用子查询"><span class="nav-number">1.4.</span> <span class="nav-text">使用子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为了获得更好的性能，你应该使用直接函数如-ajax-，而不要使用-get-、-getJSON-、-post-，因为后面的几个将会调用-ajax-。"><span class="nav-number">1.5.</span> <span class="nav-text">为了获得更好的性能，你应该使用直接函数如$.ajax()，而不要使用$.get()、$.getJSON()、$.post()，因为后面的几个将会调用$.ajax()。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采用jQuery的内部函数data-来存储状态"><span class="nav-number">1.6.</span> <span class="nav-text">采用jQuery的内部函数data()来存储状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用jQuery-utility函数。不要忘了简单实用的jQuery的utility函数。像值得称道的-isFunction-isArray-和-each-。"><span class="nav-number">1.7.</span> <span class="nav-text">使用jQuery utility函数。不要忘了简单实用的jQuery的utility函数。像值得称道的$.isFunction(), $isArray()和$.each()。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有时候采用-window-load-比-document-ready-更快，因为后者不等所有的DOM元素都下载完之前执行。使用它之前最好测试它。"><span class="nav-number">1.8.</span> <span class="nav-text">有时候采用$(window).load()比$(document).ready()更快，因为后者不等所有的DOM元素都下载完之前执行。使用它之前最好测试它。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery优化笔记收录。"><span class="nav-number">1.</span> <span class="nav-text">jquery优化笔记收录。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总是从-id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。"><span class="nav-number">1.1.</span> <span class="nav-text">总是从#id选择器来继承，这是jQuery选择器的一条黄金法则。jQuery选择一个元素最快的方法就是用ID来选择了，原生JS也一样。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在class前面使用tag"><span class="nav-number">1.2.</span> <span class="nav-text">在class前面使用tag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jQuery中class选择器是最慢的，因为在IE浏览器下它会遍历所有的DOM节点。尽量避免使用class选择器。还有注意不要用tag来修饰ID。"><span class="nav-number">1.3.</span> <span class="nav-text">jQuery中class选择器是最慢的，因为在IE浏览器下它会遍历所有的DOM节点。尽量避免使用class选择器。还有注意不要用tag来修饰ID。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用子查询"><span class="nav-number">1.4.</span> <span class="nav-text">使用子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为了获得更好的性能，你应该使用直接函数如-ajax-，而不要使用-get-、-getJSON-、-post-，因为后面的几个将会调用-ajax-。"><span class="nav-number">1.5.</span> <span class="nav-text">为了获得更好的性能，你应该使用直接函数如$.ajax()，而不要使用$.get()、$.getJSON()、$.post()，因为后面的几个将会调用$.ajax()。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采用jQuery的内部函数data-来存储状态"><span class="nav-number">1.6.</span> <span class="nav-text">采用jQuery的内部函数data()来存储状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用jQuery-utility函数。不要忘了简单实用的jQuery的utility函数。像值得称道的-isFunction-isArray-和-each-。"><span class="nav-number">1.7.</span> <span class="nav-text">使用jQuery utility函数。不要忘了简单实用的jQuery的utility函数。像值得称道的$.isFunction(), $isArray()和$.each()。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有时候采用-window-load-比-document-ready-更快，因为后者不等所有的DOM元素都下载完之前执行。使用它之前最好测试它。"><span class="nav-number">1.8.</span> <span class="nav-text">有时候采用$(window).load()比$(document).ready()更快，因为后者不等所有的DOM元素都下载完之前执行。使用它之前最好测试它。</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
