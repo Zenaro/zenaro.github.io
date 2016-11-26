@@ -1,0 +1,900 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="教程,nodeJS,express,mysql,前端,文档," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="nodeJS安装指引前往nodeJS官网下载相应的版本并安装，也可参考菜鸟教程上详尽的安装明细。安装成功后，windws下cmd打开终端，键入命令12C:\Users\admin&amp;gt; node -vv4.4.7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodeJS快速建站">
+<meta property="og:url" content="http://zenaro.github.io/2016/06/29/nodeJS-express/index.html">
+<meta property="og:site_name" content="Zenaro的博客">
+<meta property="og:description" content="nodeJS安装指引前往nodeJS官网下载相应的版本并安装，也可参考菜鸟教程上详尽的安装明细。安装成功后，windws下cmd打开终端，键入命令12C:\Users\admin&amp;gt; node -vv4.4.7">
+<meta property="og:image" content="http://7xstax.com1.z0.glb.clouddn.com/nodejs.png">
+<meta property="og:updated_time" content="2016-07-23T06:34:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodeJS快速建站">
+<meta name="twitter:description" content="nodeJS安装指引前往nodeJS官网下载相应的版本并安装，也可参考菜鸟教程上详尽的安装明细。安装成功后，windws下cmd打开终端，键入命令12C:\Users\admin&amp;gt; node -vv4.4.7">
+<meta name="twitter:image" content="http://7xstax.com1.z0.glb.clouddn.com/nodejs.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> nodeJS快速建站 | Zenaro的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5ad2199c180bcbea496739c5bfd03512";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zenaro的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Stay hungry, stay foolish</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                nodeJS快速建站
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-29T11:40:36+08:00" content="2016-06-29">
+              2016-06-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/nodeJS/" itemprop="url" rel="index">
+                    <span itemprop="name">nodeJS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/06/29/nodeJS-express/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/29/nodeJS-express/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/06/29/nodeJS-express/"class="leancloud_visitors" data-flag-title="nodeJS快速建站">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xstax.com1.z0.glb.clouddn.com/nodejs.png" alt="nodeJS"><br>nodeJS安装指引<br>前往<a href="https://nodejs.org/en/" target="_blank" rel="external">nodeJS官网</a>下载相应的版本并安装，也可参考<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="external">菜鸟教程</a>上详尽的安装明细。<br>安装成功后，windws下cmd打开终端，键入命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\admin&gt; node -v</span><br><span class="line">v4.4.7</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>当显示相应版本时则说明已成功配置node环境。可以学习菜鸟教程上的demo学着做出一些小效果，在敲打实例的过程中熟悉nodeJS基础。当然由于windows的终端很不友好，这里推荐使用Linux来学习nodeJS，如果不喜欢Linux，那最好还是能给自己的windows安装git来使用其git bash模拟终端。</p>
+<h3 id="express框架"><a href="#express框架" class="headerlink" title="express框架"></a>express框架</h3><p>当熟悉了nodeJS基本操作后，我们开始学习express框架。express是node官方唯一指定的node框架。可以用来快速搭建一个后台系统。最快上手nodeJS的方法可以是拿自己以往的项目进行nodeJS的改造。这里lz选择了重新搭建一个<a href="https://github.com/Zenaro/CloudMusic-for-nodeJS" target="_blank" rel="external">音乐素材</a>的网站，改编自CloudMusic，在前面的文章中貌似曾提过它。这个项目的代码逻辑清晰度还是可以的（可辨认的）。</p>
+<p>首先，我们新建一个项目文件夹，并初始化。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir app</span><br><span class="line">$ <span class="built_in">cd</span> app</span><br><span class="line">$ npm init</span><br></pre></td></tr></table></figure></p>
+<p>安装express并将其保存到package.json中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install express --save</span><br></pre></td></tr></table></figure></p>
+<p>以上命令会将 Express 框架安装在当前目录下的 node_modules 目录中， node_modules 目录下会自动创建 express 目录。以下几个重要的模块是需要与 express 框架一起安装的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm install body-parser --save</span><br><span class="line">$ npm install cookie-parser --save</span><br><span class="line">$ npm install multer --save</span><br></pre></td></tr></table></figure></p>
+<p><strong>第一个express实例</strong><br>我们使用express来输出hello world，以下实例中我们引入了 express 模块，并在客户端发起请求后，响应 “Hello World” 字符串。<br>创建 app.js 文件，代码如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// app.js</span><br><span class="line">var express = require(<span class="string">'express'</span>);</span><br><span class="line">var app = express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">   res.send(<span class="string">'hello world'</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var server = app.listen(8080, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line"></span><br><span class="line">  var host = server.address().address</span><br><span class="line">  var port = server.address().port</span><br><span class="line"></span><br><span class="line">  console.log(<span class="string">"运行成功，访问地址为 http://%s:%s"</span>, host, port)</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>运行以上代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node app.js</span><br></pre></td></tr></table></figure></p>
+<p>打开浏览器127.0.0.1:8080，可看到hello world已经显示了出来。相信nodeJS的基础练习已经让你熟悉了如何用node启动localhost服务了。到目前为止，express的安装和使用都没有问题了，那接下来我们就罗列一下，使用express在建站过程中所需的知识点。</p>
+<h4 id="请求和响应"><a href="#请求和响应" class="headerlink" title="请求和响应"></a>请求和响应</h4><p>Express 应用使用回调函数的参数： request 和 response 对象来处理请求和响应的数据。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 通过监听url路径的不同输入来给出不同的响应</span><br><span class="line">app.get(<span class="string">'/index'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">   // ....do something</span><br><span class="line">   </span><br><span class="line">   // 当访问路径为localhost/index时，渲染index.html</span><br><span class="line">   res.sendFile(__dirname + <span class="string">"/index.html"</span>); </span><br><span class="line">&#125;);</span><br><span class="line">app.get(<span class="string">'/user'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">   // ....do another thing</span><br><span class="line">   res.sendFile(__dirname + <span class="string">"/user.html"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="静态文件的处理"><a href="#静态文件的处理" class="headerlink" title="静态文件的处理"></a>静态文件的处理</h4><p>我们项目中的css、image和js等静态文件都需要做静态指向的处理，否则将无法被成功加载。我们使用以下代码来指定静态文件夹路径：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.use(express.static(<span class="string">'public'</span>));</span><br></pre></td></tr></table></figure></p>
+<p>public中包含了js、css和image这三个文件夹。到目前为止，我们项目的目录大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- node_module</span><br><span class="line">- public</span><br><span class="line">	- css</span><br><span class="line">	- js</span><br><span class="line">	- image</span><br><span class="line">package.json</span><br><span class="line">app.js</span><br></pre></td></tr></table></figure></p>
+<p>我们再继续完善该目录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- node_module</span><br><span class="line">- public</span><br><span class="line">	- css</span><br><span class="line">	- js</span><br><span class="line">	- iamge</span><br><span class="line">- view</span><br><span class="line">	index.html</span><br><span class="line">	user.html</span><br><span class="line">- Lib</span><br><span class="line">	- jquery</span><br><span class="line">	- seajs</span><br><span class="line">package.json</span><br><span class="line">app.js</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用路由来实现页面跳转"><a href="#使用路由来实现页面跳转" class="headerlink" title="使用路由来实现页面跳转"></a>使用路由来实现页面跳转</h4><p>我们修改app.js文件，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// app.js</span><br><span class="line">const homePath = <span class="string">"/views/Home/"</span>;	// html文件路径</span><br><span class="line">var express = require(<span class="string">'express'</span>);	</span><br><span class="line">var app = express();</span><br><span class="line"></span><br><span class="line">// 静态文件路径</span><br><span class="line">app.use(express.static(<span class="string">'public'</span>));	</span><br><span class="line">app.use(express.static(<span class="string">'Lib'</span>));		</span><br><span class="line"></span><br><span class="line">// 几个路由：</span><br><span class="line">app.get(<span class="string">'/'</span>, <span class="keyword">function</span>(req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + <span class="string">"/index.html"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(homePath + <span class="string">'index'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + homePath + <span class="string">"index.html"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(homePath + <span class="string">'login'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + homePath + <span class="string">"login.html"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(homePath + <span class="string">'my'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + homePath + <span class="string">"my.html"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(homePath + <span class="string">'reg'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + homePath + <span class="string">"reg.html"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(homePath + <span class="string">'result'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    res.sendFile(__dirname + homePath + <span class="string">"result.html"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>完成了页面跳转，接下来是建立后台接口和sql配置。我们再完善目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- conf		// 数据库配置</span><br><span class="line">	db.js 	</span><br><span class="line">- dao		// 一些后台接口</span><br><span class="line">	musicDao.js</span><br><span class="line">	musicSqlMapping.js</span><br><span class="line">	newsDao.js</span><br><span class="line">	newsSqlMapping.js</span><br><span class="line">	userDao.js</span><br><span class="line">	userSqlMapping.js</span><br><span class="line">- Lib</span><br><span class="line">- node_modules</span><br><span class="line">- public</span><br><span class="line">- routes</span><br><span class="line">- util</span><br><span class="line">- view</span><br><span class="line">app.js</span><br><span class="line">index.html</span><br><span class="line">package.json</span><br></pre></td></tr></table></figure></p>
+<h4 id="mysql连接"><a href="#mysql连接" class="headerlink" title="mysql连接"></a>mysql连接</h4><p>这里数据库选择了mysql，适合入门使用，我们为项目安装mysql模块：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install mysql --save</span><br></pre></td></tr></table></figure></p>
+<p>编辑 conf 文件夹下的db.js，写进数据库配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// db.js</span><br><span class="line">// 数据库配置</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mysql: &#123;</span><br><span class="line">        host: <span class="string">'127.0.0.1'</span>,</span><br><span class="line">        user: <span class="string">'root'</span>,</span><br><span class="line">        password: <span class="string">''</span>,</span><br><span class="line">        database: <span class="string">'music'</span>	// 数据库名</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>启用mysql服务，可以运行xampp或wamp等程序来模拟。然后在dao/userDao.js中连接mysql并编写我们的第一个简单后台接口。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// userDao.js</span><br><span class="line">// 实现与MySql交互</span><br><span class="line">var mysql = require(<span class="string">'mysql'</span>);</span><br><span class="line">var util = require(<span class="string">'../util/util'</span>); // util模块中，实现了一个简单的json输出方法</span><br><span class="line">var <span class="variable">$conf</span> = require(<span class="string">'../conf/db'</span>);</span><br><span class="line">var <span class="variable">$sql</span> = require(<span class="string">'./userSqlMapping'</span>);</span><br><span class="line"></span><br><span class="line">// 使用链接池，提升性能</span><br><span class="line">var pool = mysql.createPool(<span class="variable">$conf</span>.mysql);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    checkLogin: <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">        pool.getConnection(<span class="keyword">function</span> (err, connection) &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) console.log(<span class="string">"POOL ===&gt; "</span> + err);</span><br><span class="line">            var param = req.query || req.params;</span><br><span class="line">            connection.query(<span class="variable">$sql</span>.checkLogin, [param.user, param.pwd], <span class="keyword">function</span> (err, rows) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rows.length &gt; 0) &#123;</span><br><span class="line">                    util.jsonWrite(res, rows);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    res.json(&#123;<span class="string">'err'</span>: <span class="string">'1'</span>&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                connection.release();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>dao/userSqlMapping.js则是基本的sql语句，我们把sql语句写在sql mapping中，方便维护。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// CRUD SQL语句</span><br><span class="line">module.exports = &#123;</span><br><span class="line">	checkLogin: <span class="string">'SELECT email, pwd, id FROM app_User WHERE email=? and pwd=?'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接口写好了，我们在app.js中定义访问这个接口的路径<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const homePath = <span class="string">"/views/Home/"</span>;</span><br><span class="line">var express = require(<span class="string">'express'</span>);</span><br><span class="line">var app = express();</span><br><span class="line">var userDao = require(<span class="string">'./dao/userDao'</span>);	//引入userDao模块</span><br><span class="line"></span><br><span class="line">app.use(express.static(<span class="string">'public'</span>));</span><br><span class="line">app.use(express.static(<span class="string">'Lib'</span>));</span><br><span class="line"></span><br><span class="line">// ... 一些路由</span><br><span class="line"></span><br><span class="line">// 接口路径：</span><br><span class="line">app.get(<span class="string">'/controller/checkLogin'</span>, <span class="keyword">function</span> (req, res) &#123;</span><br><span class="line">    userDao.checkLogin(req, res);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>到此我们已经打通了前端和后台，成功地连接上了数据库。项目已经搭建起来，剩下的完善更多接口和js功能也就不在话下了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/教程/" rel="tag">#教程</a>
+          
+            <a href="/blog/tags/nodeJS/" rel="tag">#nodeJS</a>
+          
+            <a href="/blog/tags/express/" rel="tag">#express</a>
+          
+            <a href="/blog/tags/mysql/" rel="tag">#mysql</a>
+          
+            <a href="/blog/tags/前端/" rel="tag">#前端</a>
+          
+            <a href="/blog/tags/文档/" rel="tag">#文档</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/12/h5-detection/" rel="next" title="html5特性检测">
+                <i class="fa fa-chevron-left"></i> html5特性检测
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/07/07/jquery-performance/" rel="prev" title="让jquery再快一点">
+                让jquery再快一点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/29/nodeJS-express/"
+     data-title="nodeJS快速建站"
+     data-content=""
+     data-url="http://zenaro.github.io/blog/2016/06/29/nodeJS-express/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/29/nodeJS-express/"
+           data-title="nodeJS快速建站" data-url="http://zenaro.github.io/blog/2016/06/29/nodeJS-express/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/default.png"
+               alt="Zenaro" />
+          <p class="site-author-name" itemprop="name">Zenaro</p>
+          <p class="site-description motion-element" itemprop="description">web前端</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#express框架"><span class="nav-number">1.</span> <span class="nav-text">express框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#请求和响应"><span class="nav-number">1.1.</span> <span class="nav-text">请求和响应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态文件的处理"><span class="nav-number">1.2.</span> <span class="nav-text">静态文件的处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用路由来实现页面跳转"><span class="nav-number">1.3.</span> <span class="nav-text">使用路由来实现页面跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql连接"><span class="nav-number">1.4.</span> <span class="nav-text">mysql连接</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span>Copyright </span>
+  <span class="author" itemprop="copyrightHolder">Zenaro</span>
+  <span itemprop="copyrightYear">2016</span>
+</div>
+
+<div class="powered-by">
+  由 <a target="_blank" class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  我的 Github 项目
+  <a class="theme-link" href="https://github.com/Zenaro">
+    Github.Zenaro
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+
+
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/blog/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zenaro"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+
+</body>
+</html>

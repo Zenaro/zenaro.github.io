@@ -1,0 +1,893 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,apply和call,匿名函数和闭包," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="apply和call的区别：区别不大，只在参数。apply是something.apply(obj, arguments)，第一个obj是一个对象,然后arguments是一个数组。call是(obj, arg1, arg2, …..)。第一个参数是一个对象，剩下的是函数所需的其它参数。如果执行a.add()apply(b)，那么将执行一遍add函数，而且在add函数里，所有的this都将指向b。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript语法笔记">
+<meta property="og:url" content="http://zenaro.github.io/2016/06/09/javascript-secret/index.html">
+<meta property="og:site_name" content="Zenaro的博客">
+<meta property="og:description" content="apply和call的区别：区别不大，只在参数。apply是something.apply(obj, arguments)，第一个obj是一个对象,然后arguments是一个数组。call是(obj, arg1, arg2, …..)。第一个参数是一个对象，剩下的是函数所需的其它参数。如果执行a.add()apply(b)，那么将执行一遍add函数，而且在add函数里，所有的this都将指向b。">
+<meta property="og:updated_time" content="2016-07-18T12:12:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript语法笔记">
+<meta name="twitter:description" content="apply和call的区别：区别不大，只在参数。apply是something.apply(obj, arguments)，第一个obj是一个对象,然后arguments是一个数组。call是(obj, arg1, arg2, …..)。第一个参数是一个对象，剩下的是函数所需的其它参数。如果执行a.add()apply(b)，那么将执行一遍add函数，而且在add函数里，所有的this都将指向b。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript语法笔记 | Zenaro的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5ad2199c180bcbea496739c5bfd03512";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zenaro的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Stay hungry, stay foolish</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript语法笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-09T20:03:27+08:00" content="2016-06-09">
+              2016-06-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/06/09/javascript-secret/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/09/javascript-secret/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/06/09/javascript-secret/"class="leancloud_visitors" data-flag-title="JavaScript语法笔记">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="apply和call的区别："><a href="#apply和call的区别：" class="headerlink" title="apply和call的区别："></a>apply和call的区别：</h3><p>区别不大，只在参数。apply是something.apply(obj, arguments)，第一个obj是一个对象,然后arguments是一个数组。call是(obj, arg1, arg2, …..)。第一个参数是一个对象，剩下的是函数所需的其它参数。如果执行a.add()apply(b)，那么将执行一遍add函数，而且在add函数里，所有的this都将指向b。</p>
+<p>两个函数均可起到对象冒充的作用。举个apply的例子</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> Person(name, age) &#123; //创建一个Person类</span><br><span class="line">    this.name = name || <span class="string">'Lisa'</span>;</span><br><span class="line">    this.age = age || 22;</span><br><span class="line">    this.getInfo = <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        console.log(this.name + <span class="string">'---'</span> + this.age);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> Student(name, age, hair) &#123;</span><br><span class="line">    // 这里的this指向 Student </span><br><span class="line">    Person.apply(this, arguments);</span><br><span class="line">    // 或者Person.call(this, name, age);</span><br><span class="line"></span><br><span class="line">    this.hair = hair || <span class="string">'red'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var P = new Person(<span class="string">'Ruby'</span>, 18);</span><br><span class="line">var S = new Student(<span class="string">'Jacky'</span>, 23, <span class="string">'black'</span>);</span><br><span class="line">P.getInfo();</span><br><span class="line">S.getInfo();</span><br></pre></td></tr></table></figure>
+<p>上文的Person.apply()中，apply接受了两个参数，一个是this（即Student），这样一来，Person函数中的所有this将被替换成Student并执行一遍。最后出来的效果就是Student.name有了值，Student.age和Student.getInfo也都有了内容。如此一个典型的类继承就这么完成了（当然JavaScript的优势并不是这种继承类型）。</p>
+<p>好了apply和call除了这个有没有稍微振奋人心的作用？有的，比如下次面试的时候面试官问到你，如何拼接两个数组的时候，这个就派上用场了。具体的我们先声明两个数组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = [1, 2, 3];</span><br><span class="line">var b = [4, 5, 6];</span><br></pre></td></tr></table></figure></p>
+<p>然后使用Array.prototype.push().apply(a, b);（由于参数问题这里的call就不适用啦）。这里b将被逐个push进a里，最后完成拼接。当然你可能会说，直接使用concat函数不就可以了吗？</p>
+<h3 id="匿名函数和闭包"><a href="#匿名函数和闭包" class="headerlink" title="匿名函数和闭包"></a>匿名函数和闭包</h3><h4 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h4><p>函数对于写过代码的大家来说怕是熟得不能再熟了。来个普普通通的函数先：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> add(a, b) &#123;</span><br><span class="line">    <span class="built_in">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这函数是普通了点，它的功能也无非是返回两个数的和。</p>
+<p>那匿名函数呢，又是什么？<br>其实说白了就是没有名字的函数，像这个样子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"8080"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<!-- more -->
+<p>这写法有点新奇~，估计不少同学没试过这样来写函数吧，是的，它除了报错之外不会带来其他效果。首先它不能运行，就算能运行它也不能被调用，因为没有名字。<br>那有什么办法让它起作用呢？很简单，给它加个括号就行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">"8080"</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>加上括号之后，你会发现，报错不见了。嗯目前它已经是一个匿名函数的样子了，只要你在最后那里加上()，它立马就能运行起来：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    consol.log(8080);</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure></p>
+<p>既然知道怎么用匿名函数了，接下来就探讨一下它和普通函数的区别吧。<br>我们知道，有没有名字对于程序来说有着重大意义。如果写一个无名函数，我们不用发愁怎么给它起名字，更不用担心会不会出现命名冲突了。还顺道解决了全局污染的问题。<br>哇~，听起来匿名函数是个好东西。嗯的确是这样，写代码的日常中，我们可以用匿名函数来运行一段小程序，还能用它来分割代码块，实现局部代码各不干扰的效果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// ---代码块 1</span><br><span class="line">(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    var a = 1,</span><br><span class="line">        b = 2;</span><br><span class="line">    // ...do something</span><br><span class="line">    console.log(<span class="string">'start'</span>);</span><br><span class="line">&#125;)();       // 小心不要漏写了这里的分号<span class="string">";"</span></span><br><span class="line"></span><br><span class="line">// ---代码块 2</span><br><span class="line">(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    var a = 1,      //不会与之前的变量冲突</span><br><span class="line">        b = 2;</span><br><span class="line">    // ...do something</span><br><span class="line">    console.log(<span class="string">'during'</span>);</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">// ---代码块 3</span><br><span class="line">(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    var a = 1,      //不会与之前的变量冲突</span><br><span class="line">        b = 2;</span><br><span class="line">    // ...do something</span><br><span class="line">    console.log(<span class="string">'ending'</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>匿名函数还有更多新奇的作用，这里就不一一详述了~</p>
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><p>接下来聊聊闭包，上网搜下闭包的定义，官方给的也是有点生动，我记录如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">所谓“闭包”，指的是一个拥有许多变量和绑定了这些变量的环境的表达式（通常是一个函数），因而这些变量也是该表达式的一部分</span><br></pre></td></tr></table></figure></p>
+<p>不知道大家看不看的懂，反正我是一脸懵13，参考一些浅显的说法时，它们会这样理解闭包：“所谓闭包：就是函数的函数”。闭包的精髓在于作用域，JavaScript一个有趣的地方在于，它创建的每个function都会产生一个作用域。有这么个东西存在我们就可以这么玩：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">func</span></span> () &#123;</span><br><span class="line">    var a = <span class="string">"2333"</span>;</span><br><span class="line">    <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">        <span class="built_in">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>值得注意的是，最后这个函数被外面的函数返回出去了，这样才能算是合格的闭包。<br>通过闭包，我们足以把局部变量驻留在内存中（避免了全局变量），举个例子，我们想实现变量的累加，一个简单的做法是把变量做成全局的，<br>这样大家都能访问到，累加就不是难事:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var count = 10;     //count是全局变量</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">plus</span></span>() &#123;   // 累加函数</span><br><span class="line">    count ++;</span><br><span class="line">&#125;</span><br><span class="line">plus();             //调用累加-&gt;11</span><br><span class="line">console.log(count);</span><br><span class="line"></span><br><span class="line">plus();             //再累加 -&gt;12</span><br><span class="line">console.log(count);</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>但全局变量是个危险品，换成局部变量又实现不了累加<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">plus</span></span>() &#123;   // 累加函数</span><br><span class="line">    var count = 10;     //count是局部变量</span><br><span class="line">    count ++;</span><br><span class="line">    <span class="built_in">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line">plus();             //累加    -&gt;11</span><br><span class="line">console.log(count);</span><br><span class="line"></span><br><span class="line">plus();             //累加失败  还是  -&gt;11</span><br><span class="line">console.log(count);</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>遇到这种情况，就是闭包的发挥用处的时候啦：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">plus</span></span> () &#123;      // plus是个闭包</span><br><span class="line">    var count = 10;</span><br><span class="line">    <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">        count++;</span><br><span class="line">        <span class="built_in">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不过调用的时候要小心，如果是直接向下面这样调用的话是起不到效果的，因为变量被不断地初始化了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">plus</span></span> () &#123;      // plus是个闭包</span><br><span class="line">    var count = 10;</span><br><span class="line">    <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">        count++;</span><br><span class="line">        <span class="built_in">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// ----错误的调用方式---</span><br><span class="line">console.log(plus()());  //初始化count并累加</span><br><span class="line">console.log(plus()());  //再度初始化count并累加</span><br><span class="line">console.log(plus()());  // ...</span><br><span class="line">console.log(plus()());  // ...</span><br></pre></td></tr></table></figure></p>
+<p>应该先把plus函数用临时变量存起来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// ----正确的调用方式---</span><br><span class="line">    var closure = plus ();</span><br><span class="line">    console.log(plus()());</span><br><span class="line">    console.log(plus()());</span><br><span class="line">    console.log(plus()());</span><br><span class="line">    console.log(plus()());</span><br></pre></td></tr></table></figure></p>
+<p>这样的话就实现累加了。<br>PS（这也是我后来才知道的真相）:由于闭包里作用域返回的局部变量资源不会立即被销毁回收，所以会占用内存，过多使用会导致性能下降，建议在有必要的时候才使用它~。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/blog/tags/apply和call/" rel="tag">#apply和call</a>
+          
+            <a href="/blog/tags/匿名函数和闭包/" rel="tag">#匿名函数和闭包</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/06/player/" rel="next" title="音乐播放器插件">
+                <i class="fa fa-chevron-left"></i> 音乐播放器插件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/06/12/h5-detection/" rel="prev" title="html5特性检测">
+                html5特性检测 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/09/javascript-secret/"
+     data-title="JavaScript语法笔记"
+     data-content=""
+     data-url="http://zenaro.github.io/blog/2016/06/09/javascript-secret/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/09/javascript-secret/"
+           data-title="JavaScript语法笔记" data-url="http://zenaro.github.io/blog/2016/06/09/javascript-secret/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/default.png"
+               alt="Zenaro" />
+          <p class="site-author-name" itemprop="name">Zenaro</p>
+          <p class="site-description motion-element" itemprop="description">web前端</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#apply和call的区别："><span class="nav-number">1.</span> <span class="nav-text">apply和call的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匿名函数和闭包"><span class="nav-number">2.</span> <span class="nav-text">匿名函数和闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#匿名函数"><span class="nav-number">2.1.</span> <span class="nav-text">匿名函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#闭包"><span class="nav-number">2.2.</span> <span class="nav-text">闭包</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span>Copyright </span>
+  <span class="author" itemprop="copyrightHolder">Zenaro</span>
+  <span itemprop="copyrightYear">2016</span>
+</div>
+
+<div class="powered-by">
+  由 <a target="_blank" class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  我的 Github 项目
+  <a class="theme-link" href="https://github.com/Zenaro">
+    Github.Zenaro
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+
+
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/blog/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zenaro"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+
+</body>
+</html>

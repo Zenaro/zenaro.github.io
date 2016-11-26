@@ -1,0 +1,886 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="html5," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="前端特性检测HTML5是一些新的独立特性的集合，因此我们不能检测浏览器是否支持“HTML5”,但是我们可以分别检测浏览器是否支持诸如“画布(canvas)”、“视频(video)”、“地理位置(geolocation)”等特性
+简要记录做web前段开发人员已经习惯了处理多浏览器兼容(如IE、firefox、chrome)，我们需要从js和css上考虑让它如何兼容，如何一致。HTML5也一样，只是它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="html5特性检测">
+<meta property="og:url" content="http://zenaro.github.io/2016/06/12/h5-detection/index.html">
+<meta property="og:site_name" content="Zenaro的博客">
+<meta property="og:description" content="前端特性检测HTML5是一些新的独立特性的集合，因此我们不能检测浏览器是否支持“HTML5”,但是我们可以分别检测浏览器是否支持诸如“画布(canvas)”、“视频(video)”、“地理位置(geolocation)”等特性
+简要记录做web前段开发人员已经习惯了处理多浏览器兼容(如IE、firefox、chrome)，我们需要从js和css上考虑让它如何兼容，如何一致。HTML5也一样，只是它">
+<meta property="og:updated_time" content="2016-07-18T08:45:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="html5特性检测">
+<meta name="twitter:description" content="前端特性检测HTML5是一些新的独立特性的集合，因此我们不能检测浏览器是否支持“HTML5”,但是我们可以分别检测浏览器是否支持诸如“画布(canvas)”、“视频(video)”、“地理位置(geolocation)”等特性
+简要记录做web前段开发人员已经习惯了处理多浏览器兼容(如IE、firefox、chrome)，我们需要从js和css上考虑让它如何兼容，如何一致。HTML5也一样，只是它">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> html5特性检测 | Zenaro的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5ad2199c180bcbea496739c5bfd03512";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zenaro的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Stay hungry, stay foolish</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                html5特性检测
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-12T15:39:05+08:00" content="2016-06-12">
+              2016-06-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/前端相关/" itemprop="url" rel="index">
+                    <span itemprop="name">前端相关</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/06/12/h5-detection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/12/h5-detection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/06/12/h5-detection/"class="leancloud_visitors" data-flag-title="html5特性检测">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前端特性检测"><a href="#前端特性检测" class="headerlink" title="前端特性检测"></a>前端特性检测</h2><p>HTML5是一些新的独立特性的集合，因此我们不能检测浏览器是否支持“HTML5”,但是我们可以分别检测浏览器是否支持诸如“画布(canvas)”、“视频(video)”、“地理位置(geolocation)”等特性</p>
+<h3 id="简要记录"><a href="#简要记录" class="headerlink" title="简要记录"></a>简要记录</h3><p>做web前段开发人员已经习惯了处理多浏览器兼容(如IE、firefox、chrome)，我们需要从js和css上考虑让它如何兼容，如何一致。HTML5也一样，只是它更广泛的被浏览器开发商接受并兼容且效果良好。不过这里仍旧有一个问题，就是“有些旧的浏览器不支持”。我们往往会对浏览器对html5的支持做一定的检测，并使用一些友好的提示来提示用户。</p>
+<a id="more"></a>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>当浏览器在渲染web页面的时候会构造一个文档对象模型(DOM)，通过它来表示页面上的HTML元素，任何一个tag都会被表示为一个对象；当然也有windwos和document这些不和特定页面元素绑定在一起的全局对象。</p>
+<p>所有的dom对象都共享一些属性，但是有些对象会拥有特定的属性。在支持HTML5特性的浏览器中，特性相关的dom对象就会有特定的属性。通过这些特定的属性，我们可以快速的检测出那些html5特性是被支持的。比如常见的四种方法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1.检测全局对象(如window,navigator)是否拥有特定的属性。比如检测地理位置特性</span><br><span class="line"></span><br><span class="line">2.创建一个元素，然后检测该元素的dom对象是否拥有特定的属性。比如检测画布特性</span><br><span class="line"></span><br><span class="line">3.创建一个元素，然后检测这个元素dom对象是否拥有特定的方法，调用这个方法，并检测返回值。比如检测支持的视频格式</span><br><span class="line"></span><br><span class="line">4.创建一个元素，给这个元素的dom对象设定特定的属性值，然后检测浏览器是否保留了该属性值</span><br></pre></td></tr></table></figure></p>
+<h3 id="画布-canvas"><a href="#画布-canvas" class="headerlink" title="画布 (canvas)"></a>画布 (canvas)</h3><p>在网页中canvas声明了一块矩形区域，在这个区域里，我们可以画任何内容，html5标准中定义了一系列的canvas的api，用于绘制简单图形、定义路径、创建渐变、应用图像变换等。<br>检测canvas api，可以通过创建canvas元素，判断其dom对象是否有getContext()方法；<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//Canvas</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportCanvas</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> !!document.createElement(<span class="string">"canvas"</span>).getContext;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>浏览器支持canvas api但不一定支持canvas text api，因为canvas api一直都在不断完善中，cavas text(绘制文本)后来才被纳入规范；既然如此，支持canvas text api必须要支持canvas api(见上)，如果李兰奇支持canvas api，那么在获得canvas绘图上下文后，可以判断是否有filltext方法，如果存在这个方法，则可以断定浏览器支持canvas text  api<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//Canvas Text</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportCanvasText</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!supportCanvas) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    var canvas = document.createElement(<span class="string">"canvas"</span>);</span><br><span class="line">    //获取绘图上下文</span><br><span class="line">    var context = canvas.getContext(<span class="string">"2d"</span>); </span><br><span class="line"></span><br><span class="line">    //是否有fillText方法</span><br><span class="line">    <span class="built_in">return</span> typeof context.fillText == <span class="string">"function"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="视频-video"><a href="#视频-video" class="headerlink" title="视频 (video)"></a>视频 (video)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">testVideo</span></span>() &#123;</span><br><span class="line">    var isSupport = supportVideo();</span><br><span class="line">    alert(isSupport ? <span class="string">"support video"</span> : <span class="string">"do not support video"</span>);</span><br><span class="line">    //alert(Modernizr.video ? <span class="string">"support video"</span> : <span class="string">"do not support video"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>视频格式<br>视频编码算法迥异，所以目前各浏览器还未达成一致，使用统一的视频编码算法；但是好在这种算法已经缩减到两周算法上：一种是safari和iphone的编码算法；另一种是诸如chrome和mozilla firefox这类开源浏览器的编码算法；所以做视频格式支持检测，要分别判断这两种；还有一种WebM，它是一种新的开源视频编码格式，会在Chrome，firefox和opera的下一个版本的到支持，所以我们也检测咯；<br>要检测浏览器是否支持某视频格式，当然必须支持video；先创建video节点，然后调用dom对象的canPlayType()方法，但是这个方法返回的不是一个bool值，因为视频格式非常复杂，所以这个方法会返回一个字符串，分别为：<br>probably:表示浏览器充分把握可以播放此格式<br>maybe：表示浏览器有可能可以播放此格式<br>“”(空字符串)：表示浏览器无法播放此格式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// MP4：</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">support_h264BaseLine_VideoFormats</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!supportVideo()) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    var v = document.createElement(<span class="string">"video"</span>);</span><br><span class="line">    <span class="built_in">return</span> v.canPlayType(<span class="string">"video/mp4;codecs='avc1.42E01E,mp4a.40.2'"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ogg:</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">support_ogg_theora_VideoFromats</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!supportVideo()) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    var v = document.createElement(<span class="string">"video"</span>);</span><br><span class="line">    <span class="built_in">return</span> v.canPlayType(<span class="string">"video/ogg;codecs='theora,vorbis'"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// web M:</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">support_webM_VideoFromats</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!supportVideo()) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    var v = document.createElement(<span class="string">"video"</span>);</span><br><span class="line">    <span class="built_in">return</span> v.canPlayType(<span class="string">"video/webm;codecs='vp8,vorbis'"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="本地存储-Localstorage"><a href="#本地存储-Localstorage" class="headerlink" title="本地存储(Localstorage)"></a>本地存储(Localstorage)</h3><p>HTML5本地存储允许网站把信息存储到本地的计算机上，以便在需要时获取。这和cookie类似，但cookie是有大小先知道的，而且每次请求一个新页面时，cookie就会被发送回服务器；而html5本地存储将信息存储到用户计算机上，网站可以再页面加载完成后通过js获取；检测浏览器是否支持本地存储可以通过判断window对象是否有localStorage属性 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportLocalStorage</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> (<span class="string">'localStorage'</span> <span class="keyword">in</span> window) &amp;&amp; window[<span class="string">'localStorage'</span>] != null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Web-Workers"><a href="#Web-Workers" class="headerlink" title="Web Workers"></a>Web Workers</h3><p>Web Workers提供了一种标准的方式让浏览器能够在后台运行js，通过web worker，可以创建多个“线程”并让他们同时执行；<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportWebWorkers</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> window.Worker;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="离线web应用"><a href="#离线web应用" class="headerlink" title="离线web应用"></a>离线web应用</h3><p>html5支持离线web应用，即断开网络后可以继续访问web应用程序；在第一次访问具备离线访问的web应用时，web服务器会告诉浏览器哪些文件是保证离线正常工作必须得，一旦浏览器下载了这些必须文件，下次就可以在没有网络的情况下正常使用应用；等下次用户重新上线的时候，所有改动都会上传到远程的web服务器；检测浏览器是否支持离线应用，可以通过判断window对象是否有applicationCache属性；<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportOffLine</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> !!window.applicationCache;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="地理位置-Geolocation"><a href="#地理位置-Geolocation" class="headerlink" title="地理位置(Geolocation)"></a>地理位置(Geolocation)</h3><p>浏览器在实现对html5新特性支持的同时，也纷纷加入了对地理位置特性的支持。严格的说，地理位置特性并不属于html5标准的一部分，它由地理位置工作组(Geolocation Working Group)负责制定标准，这个工作组和html5工作组没关系；地理位置api的使用场景非常广泛，尤其在移动设备上；检测浏览器是否支持地理位置api，可以判断navigator是否有geolocation属性.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">supportGeolocation</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> !!navigator.geolocation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>– the end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/html5/" rel="tag">#html5</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/09/javascript-secret/" rel="next" title="JavaScript语法笔记">
+                <i class="fa fa-chevron-left"></i> JavaScript语法笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/06/29/nodeJS-express/" rel="prev" title="nodeJS快速建站">
+                nodeJS快速建站 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/12/h5-detection/"
+     data-title="html5特性检测"
+     data-content=""
+     data-url="http://zenaro.github.io/blog/2016/06/12/h5-detection/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/12/h5-detection/"
+           data-title="html5特性检测" data-url="http://zenaro.github.io/blog/2016/06/12/h5-detection/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/default.png"
+               alt="Zenaro" />
+          <p class="site-author-name" itemprop="name">Zenaro</p>
+          <p class="site-description motion-element" itemprop="description">web前端</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前端特性检测"><span class="nav-number">1.</span> <span class="nav-text">前端特性检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简要记录"><span class="nav-number">1.1.</span> <span class="nav-text">简要记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体实现"><span class="nav-number">1.2.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画布-canvas"><span class="nav-number">1.3.</span> <span class="nav-text">画布 (canvas)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视频-video"><span class="nav-number">1.4.</span> <span class="nav-text">视频 (video)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地存储-Localstorage"><span class="nav-number">1.5.</span> <span class="nav-text">本地存储(Localstorage)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Workers"><span class="nav-number">1.6.</span> <span class="nav-text">Web Workers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#离线web应用"><span class="nav-number">1.7.</span> <span class="nav-text">离线web应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地理位置-Geolocation"><span class="nav-number">1.8.</span> <span class="nav-text">地理位置(Geolocation)</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span>Copyright </span>
+  <span class="author" itemprop="copyrightHolder">Zenaro</span>
+  <span itemprop="copyrightYear">2016</span>
+</div>
+
+<div class="powered-by">
+  由 <a target="_blank" class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  我的 Github 项目
+  <a class="theme-link" href="https://github.com/Zenaro">
+    Github.Zenaro
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+
+
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/blog/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zenaro"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+
+</body>
+</html>
