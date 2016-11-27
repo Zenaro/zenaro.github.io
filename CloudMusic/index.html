@@ -104,16 +104,15 @@
     <div class="center">
         <h1><a href="">Lyric 音乐场</a></h1>
         <ul class="nav">
-            <li><a href="./views/home/frame.html" class="active">前往首页</a></li>
-            <li><a href="./views/site/frame.html">站台一览</a></li>
-            <li><a href="./views/home/frame.html">本地音乐库</a></li>
+            <li><a href="./views/site/frame.html#/home" class="active">前往首页</a></li>
+            <li><a href="./views/site/frame.html#/home">站台一览</a></li>
         </ul>
     </div>
 </header>
 <section>
     <div class="center">
         <h2>音乐素材--前端</h2>
-        <a href="./views/site/frame.html">前往首页</a>
+        <a href="./views/site/frame.html#/home">前往首页</a>
     </div>
     <canvas></canvas>
 </section>
@@ -122,16 +121,5 @@
         <p>©copyright 版权所有 zenaro.github.io</p>
     </div>
 </footer>
-<script src="./Lib/seajs/sea.js"></script>
-<script>
-    seajs.config({
-        base: "./Lib",
-        alias: {
-            "jquery" : "jquery/jquery.js",
-            "jcanvas" : "JCanvas/jcanvas.min.js"
-        }
-    });
-    seajs.use('./public/site/js/index/main');
-</script>
 </body>
 </html>
