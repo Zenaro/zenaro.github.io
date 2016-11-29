@@ -1,0 +1,878 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/blog/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web audio api," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Audio API基本概念Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web audio api">
+<meta property="og:url" content="http://zenaro.github.io/blog/2016/11/29/web-audio-api/index.html">
+<meta property="og:site_name" content="Zenaro的博客">
+<meta property="og:description" content="Audio API基本概念Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是">
+<meta property="og:image" content="http://7xstax.com1.z0.glb.clouddn.com/web-audio-api.png">
+<meta property="og:image" content="http://7xstax.com1.z0.glb.clouddn.com/gainNode.png">
+<meta property="og:updated_time" content="2016-11-29T14:09:47.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web audio api">
+<meta name="twitter:description" content="Audio API基本概念Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是">
+<meta name="twitter:image" content="http://7xstax.com1.z0.glb.clouddn.com/web-audio-api.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> web audio api | Zenaro的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5ad2199c180bcbea496739c5bfd03512";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zenaro的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Stay hungry, stay foolish</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-question-circle fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                web audio api
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-29T20:46:27+08:00" content="2016-11-29">
+              2016-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/web-audio-api/" itemprop="url" rel="index">
+                    <span itemprop="name">web audio api</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/11/29/web-audio-api/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/web-audio-api/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/11/29/web-audio-api/"class="leancloud_visitors" data-flag-title="web audio api">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Audio-API基本概念"><a href="#Audio-API基本概念" class="headerlink" title="Audio API基本概念"></a>Audio API基本概念</h2><p>Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。<br>在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是扬声器或耳机等播放器）。一个典型的audio音效工作流如下所示：</p>
+<p><img src="http://7xstax.com1.z0.glb.clouddn.com/web-audio-api.png" alt="web audio api"></p>
+<p>以上音频的实现步骤可分为：<br>1.创建音频环境上下文（Audio Context）；<br>2.在音频环境中创建音源（source），该对象可以为振荡器、Audio标签对象等等；<br>3.创建音效节点，如混响、双二阶滤波器、平移、压缩；<br>4.为音频选择一个终点（destination），如系统扬声器；<br>5.连接音源到音效节点，以及连接音效节点到终点，以构成音频播放的通路。<br>通过图示，我们可以将音频处理分解为三个节点的相连：源节点、分析和处理节点、目的节点。在中间的处理节点上，可以通过底层API实现音效，如使用BiquadFilterNode调整音色（即滤波器）、使用ChannelSplitterNode分割左右声道、使用GainNode调整增益值实现音乐的淡入淡出。</p>
+<h2 id="Audio-API-实现"><a href="#Audio-API-实现" class="headerlink" title="Audio API 实现"></a>Audio API 实现</h2><p>首先创建全局audio对象、Audio环境对象、分析器Analyser、gainNode节点，随后创建一条播放的通路<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> audio = new Audio();</span><br><span class="line"><span class="built_in">let</span> audioCtx = new(window.AudioContext || window.webkitAudioContext)();</span><br><span class="line"><span class="built_in">let</span> analyser = audioCtx.createAnalyser();</span><br><span class="line"><span class="built_in">let</span> gainNode = audioCtx.createGain();</span><br><span class="line">audio.src = <span class="string">'***.mp3'</span>;</span><br><span class="line">analyser.fftSize = 2048;</span><br><span class="line"></span><br><span class="line">// <span class="built_in">source</span> -&gt; analyser -&gt; gainNode -&gt; destination  创建播放的一条通路</span><br><span class="line">this.source.connect(this.analyser);</span><br><span class="line">this.analyser.connect(this.gainNode);</span><br><span class="line">this.gainNode.connect(this.audioCtx.destination);</span><br></pre></td></tr></table></figure></p>
+<h2 id="淡入淡出声音"><a href="#淡入淡出声音" class="headerlink" title="淡入淡出声音"></a>淡入淡出声音</h2><p>在切换歌曲或切换播放/暂停状态时，使用淡入淡出音量的效果可以增强体验，有了web audio api后，可以更精确地模拟音量增益的平滑衰减和平滑增加过程<br><img src="http://7xstax.com1.z0.glb.clouddn.com/gainNode.png" alt="web audio api"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 淡入</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">layin</span></span>() &#123;</span><br><span class="line">    gainNode.gain.value = 0; // 音量从0开始</span><br><span class="line">    audio.play(); </span><br><span class="line">    <span class="built_in">let</span> currentTime = audioCtx.currentTime;</span><br><span class="line"></span><br><span class="line">    // 0.7 为衰减总时间，单位为秒</span><br><span class="line">    this.gainNode.gain.linearRampToValueAtTime(1, currentTime + 0.7); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 淡出</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">layout</span></span>() &#123;</span><br><span class="line">    <span class="built_in">let</span> currentTime = audioCtx.currentTime;</span><br><span class="line">    gainNode.gain.linearRampToValueAtTime(0, currentTime + 0.7);</span><br><span class="line">    <span class="built_in">set</span>Timeout(() =&gt; &#123;</span><br><span class="line">        audio.pause();</span><br><span class="line">    &#125;, 700); // 700ms后再暂停</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="空间环绕声"><a href="#空间环绕声" class="headerlink" title="空间环绕声"></a>空间环绕声</h2><p>实现特定音效时需断开原先的音频轨道，重新创建一条通路<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">disconnect</span></span>() &#123; // 断开轨道</span><br><span class="line">    source.disconnect(0);</span><br><span class="line">    analyser.disconnect(0);</span><br><span class="line">    // 先断开<span class="built_in">source</span>的连接，重新确定路径, 连接analyser只为分析用，作为另一个分支从存在。</span><br><span class="line">    source.connect(this.analyser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在web audio api下可以通过pannerNode来模拟实现立体声，其本质是调整左右声道的音频衰减和增益以模拟声音的方向性。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">disconnect(); // 断开轨道</span><br><span class="line"><span class="built_in">let</span> panner = audioCtx.createPanner();</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> gain1 = audioCtx.createGain();</span><br><span class="line"><span class="built_in">let</span> gain2 = audioCtx.createGain();</span><br><span class="line"></span><br><span class="line"><span class="built_in">let</span> convolver = audioCtx.createConvolver();</span><br><span class="line"></span><br><span class="line">panner.setOrientation(0, 0, 0, 0, 1, 0);</span><br><span class="line"><span class="built_in">let</span> index = 0,</span><br><span class="line">    radius = 20;</span><br><span class="line">// 声源将绕着收听者以单位20的半径旋转</span><br><span class="line"><span class="built_in">let</span> effectTimer = <span class="built_in">set</span>Interval(() =&gt; &#123;</span><br><span class="line">    panner.setPosition(Math.sin(index) * radius, 0, Math.cos(index) * radius);</span><br><span class="line">    index += 1 / 100;</span><br><span class="line">&#125;, 16);</span><br><span class="line">source.connect(panner);</span><br><span class="line">gain1.gain.value = 5;</span><br><span class="line">panner.connect(gain1);</span><br><span class="line">gain1.connect(audioCtx.destination);</span><br><span class="line"></span><br><span class="line">convolver.connect(gain2);</span><br><span class="line">gain2.connect(audioCtx.destination);</span><br></pre></td></tr></table></figure></p>
+<p>在web下的低通滤波，是将音频中高于某Hz的音频过滤掉，以实现音乐的低音增强音效</p>
+<h2 id="低通滤波"><a href="#低通滤波" class="headerlink" title="低通滤波"></a>低通滤波</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> lowpassFilter(freq) &#123;</span><br><span class="line">    disconnect();</span><br><span class="line">    <span class="built_in">let</span> biquadFilter = audioCtx.createBiquadFilter();</span><br><span class="line">    biquadFilter.type = <span class="string">'lowpass'</span>; // 低阶通过</span><br><span class="line">    biquadFilter.Q.value = 2;</span><br><span class="line">    biquadFilter.frequency.value = freq || 800; // 临界点的 Hz，默认800Hz</span><br><span class="line">    source.connect(biquadFilter);</span><br><span class="line">    biquadFilter.connect(audioCtx.destination);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/web-audio-api/" rel="tag">#web audio api</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/07/26/gulp/" rel="next" title="gulp速成">
+                <i class="fa fa-chevron-left"></i> gulp速成
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/11/29/create-react-app/" rel="prev" title="React建站--craete-react-app">
+                React建站--craete-react-app <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/11/29/web-audio-api/"
+     data-title="web audio api"
+     data-content=""
+     data-url="http://zenaro.github.io/blog/blog/2016/11/29/web-audio-api/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/29/web-audio-api/"
+           data-title="web audio api" data-url="http://zenaro.github.io/blog/blog/2016/11/29/web-audio-api/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/default.png"
+               alt="Zenaro" />
+          <p class="site-author-name" itemprop="name">Zenaro</p>
+          <p class="site-description motion-element" itemprop="description">web前端</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Audio-API基本概念"><span class="nav-number">1.</span> <span class="nav-text">Audio API基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Audio-API-实现"><span class="nav-number">2.</span> <span class="nav-text">Audio API 实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#淡入淡出声音"><span class="nav-number">3.</span> <span class="nav-text">淡入淡出声音</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空间环绕声"><span class="nav-number">4.</span> <span class="nav-text">空间环绕声</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低通滤波"><span class="nav-number">5.</span> <span class="nav-text">低通滤波</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span>Copyright </span>
+  <span class="author" itemprop="copyrightHolder">Zenaro</span>
+  <span itemprop="copyrightYear">2016</span>
+</div>
+
+<div class="powered-by">
+  由 <a target="_blank" class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  我的 Github 项目
+  <a class="theme-link" href="https://github.com/Zenaro">
+    Github.Zenaro
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+
+
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/blog/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/blog/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/blog/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zenaro"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = '0 ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+}); 
+</script>
+  
+
+</body>
+</html>

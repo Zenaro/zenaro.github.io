@@ -57,19 +57,22 @@
 
 
 
-<meta name="description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，而自动化体系中，gulp和grunt有如兄弟关系一般，各有特色。相对而言，gulp语法要比grunt简单易懂些。这里记录下gulp快速使用的笔记。
-入门指南1.首先你需要有nodeJS环境，如果还未安装好node，可以前往官网下载，比较简单这里就不赘述了。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp">
+<meta name="description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，记录gulp快速使用的笔记如下。
+入门指南1.首先gulp运行需要nodeJS环境，如果还未安装好node，可以前往官网下载，这里不再赘述安装过程。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp --global
+2.接着cd到新建文件夹中，执行以下语句来局部安装gulp。（若项目还未初始化，记得先执行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gulp速成">
 <meta property="og:url" content="http://zenaro.github.io/blog/2016/07/26/gulp/index.html">
 <meta property="og:site_name" content="Zenaro的博客">
-<meta property="og:description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，而自动化体系中，gulp和grunt有如兄弟关系一般，各有特色。相对而言，gulp语法要比grunt简单易懂些。这里记录下gulp快速使用的笔记。
-入门指南1.首先你需要有nodeJS环境，如果还未安装好node，可以前往官网下载，比较简单这里就不赘述了。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp">
-<meta property="og:updated_time" content="2016-07-26T13:25:20.000Z">
+<meta property="og:description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，记录gulp快速使用的笔记如下。
+入门指南1.首先gulp运行需要nodeJS环境，如果还未安装好node，可以前往官网下载，这里不再赘述安装过程。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp --global
+2.接着cd到新建文件夹中，执行以下语句来局部安装gulp。（若项目还未初始化，记得先执行">
+<meta property="og:updated_time" content="2016-11-29T12:19:19.979Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gulp速成">
-<meta name="twitter:description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，而自动化体系中，gulp和grunt有如兄弟关系一般，各有特色。相对而言，gulp语法要比grunt简单易懂些。这里记录下gulp快速使用的笔记。
-入门指南1.首先你需要有nodeJS环境，如果还未安装好node，可以前往官网下载，比较简单这里就不赘述了。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp">
+<meta name="twitter:description" content="前端自动化帮助我们像工厂一样生产和管理自己的项目代码，记录gulp快速使用的笔记如下。
+入门指南1.首先gulp运行需要nodeJS环境，如果还未安装好node，可以前往官网下载，这里不再赘述安装过程。确认安装成功后，我们打开终端，先全局安装gulp。1$ npm install gulp --global
+2.接着cd到新建文件夹中，执行以下语句来局部安装gulp。（若项目还未初始化，记得先执行">
 
 
 
@@ -307,17 +310,17 @@
       
 
       
-        <p>前端自动化帮助我们像工厂一样生产和管理自己的项目代码，而自动化体系中，gulp和grunt有如兄弟关系一般，各有特色。相对而言，gulp语法要比grunt简单易懂些。这里记录下gulp快速使用的笔记。</p>
-<h2 id="入门指南"><a href="#入门指南" class="headerlink" title="入门指南"></a>入门指南</h2><p>1.首先你需要有nodeJS环境，如果还未安装好node，可以前往<a href="http://nodejs.cn/" target="_blank" rel="external">官网</a>下载，比较简单这里就不赘述了。确认安装成功后，我们打开终端，先全局安装gulp。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp --global</span><br></pre></td></tr></table></figure></p>
-<p>2.接着cd到我们的新建文件夹中，执行以下语句来局部安装gulp。（若项目还未初始化，记得先执行 $ npm init）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp --save-dev</span><br></pre></td></tr></table></figure></p>
+        <p>前端自动化帮助我们像工厂一样生产和管理自己的项目代码，记录gulp快速使用的笔记如下。</p>
+<h2 id="入门指南"><a href="#入门指南" class="headerlink" title="入门指南"></a>入门指南</h2><p>1.首先gulp运行需要nodeJS环境，如果还未安装好node，可以前往<a href="http://nodejs.cn/" target="_blank" rel="external">官网</a>下载，这里不再赘述安装过程。确认安装成功后，我们打开终端，先全局安装gulp。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp --global</span><br></pre></td></tr></table></figure></p>
+<p>2.接着cd到新建文件夹中，执行以下语句来局部安装gulp。（若项目还未初始化，记得先执行 npm init）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp --save-dev</span><br></pre></td></tr></table></figure></p>
 <p>3.在项目test的根目录下创建一个名为 gulpfile.js 的文件（注意这里的命名只能是gulpfile.js）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// gulpfile.js</span><br><span class="line">var gulp = require(<span class="string">'gulp'</span>);</span><br><span class="line">gulp.task(<span class="string">'default'</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">	// 默认的任务代码</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 <p>4.运行 gulp：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gulp</span><br></pre></td></tr></table></figure></p>
 <p>默认的名为 default 的任务（task）就被运行了，在这里，这个任务并未做任何事情。</p>
 <p>若要单独执行特定的任务（task），请输入 gulp + 任务名。<br><a id="more"></a></p>
-<h2 id="常见的gulp自动化使用"><a href="#常见的gulp自动化使用" class="headerlink" title="常见的gulp自动化使用"></a>常见的gulp自动化使用</h2><p>日常的前端开发项目的过程中，我们可能会希望gulp为我们做这三件事情：<br>a. 我们写less文件，然后它可以自动帮我们把这些less转成css文件（要是顺便再压缩一下就更好了）。<br>b. 我们写js文件，然后它可以帮我们将js文件丑化一下，（前端的js文件可是能被客户直接查看到的，不丑化就很容易被攻击）。丑化的同时也是压缩。<br>c. 我们在写less和js的时候，它能够实时监测到文件的变化，同时每次都自动触发上面两个任务的重新执行。</p>
-<p>想法很好，现在我们开始使用gulp。先安装几个将要调用到的模块<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp-less --save-dev</span><br><span class="line">$ npm install gulp-livereload --save-dev</span><br><span class="line">$ npm install gulp-minify-css --save-dev</span><br><span class="line">$ npm install gulp-autoprefixer --save-dev</span><br><span class="line">$ npm install gulp-concat --save-dev</span><br><span class="line">$ npm install gulp-rename --save-dev</span><br><span class="line">$ npm install gulp-uglify --save-dev</span><br></pre></td></tr></table></figure></p>
+<h2 id="常见的gulp自动化使用"><a href="#常见的gulp自动化使用" class="headerlink" title="常见的gulp自动化使用"></a>常见的gulp自动化使用</h2><p>日常的前端开发项目的过程中，我们可能会希望gulp为我们做这三件事情：<br>a. 编写less文件时，gulp可以自动帮我们把这些less转成css文件（要是顺便再压缩一下就更好了）。<br>b. 编写js文件时，gulp将js文件丑化一下，（前端的js文件可以被客户直接查看到，不丑化就很容易被攻击）。丑化的同时也是压缩。<br>c. 在编写以上less和js的时候，它能够实时监测到文件的变化，同时每次都自动触发上面两个任务的重新执行。</p>
+<p>现在我们开始使用gulp。先安装几个将要调用到的模块<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp-less --save-dev</span><br><span class="line">$ npm install gulp-livereload --save-dev</span><br><span class="line">$ npm install gulp-minify-css --save-dev</span><br><span class="line">$ npm install gulp-autoprefixer --save-dev</span><br><span class="line">$ npm install gulp-concat --save-dev</span><br><span class="line">$ npm install gulp-rename --save-dev</span><br><span class="line">$ npm install gulp-uglify --save-dev</span><br></pre></td></tr></table></figure></p>
 <p>或者直接全部安装:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install gulp-less gulp-livereload gulp-minify-css gulp-autoprefixer gulp-concat gulp-rename gulp-uglify --save-dev</span><br></pre></td></tr></table></figure></p>
-<p>我们的测试项目为test，其文件目录大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- view</span><br><span class="line">  - index.html</span><br><span class="line">  - my.html</span><br><span class="line">  - **</span><br><span class="line"></span><br><span class="line">- src</span><br><span class="line">  - less</span><br><span class="line">  - js</span><br><span class="line"></span><br><span class="line">- dist</span><br><span class="line">  - css</span><br><span class="line">  - js</span><br><span class="line"></span><br><span class="line">- gulpfile.js</span><br><span class="line">- package.json</span><br></pre></td></tr></table></figure></p>
+<p>我们的测试项目名为test，其文件目录大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- view</span><br><span class="line">  - index.html</span><br><span class="line">  - my.html</span><br><span class="line">  - **</span><br><span class="line"></span><br><span class="line">- src</span><br><span class="line">  - less</span><br><span class="line">  - js</span><br><span class="line"></span><br><span class="line">- dist</span><br><span class="line">  - css</span><br><span class="line">  - js</span><br><span class="line"></span><br><span class="line">- gulpfile.js</span><br><span class="line">- package.json</span><br></pre></td></tr></table></figure></p>
 <p>我们希望 gulp 会监测 src 里面的 less 和 js 文件，当这些文件改变时，它会自动编译它们并生成到 dist 文件夹中。初步思路是这样，接下来我们开始修改gulpfile.js文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var gulp = require(<span class="string">'gulp'</span>);		// 引入gulp</span><br><span class="line"></span><br><span class="line">var less = require(<span class="string">'gulp-less'</span>),			         // 引入 &lt;less编译&gt; 模块</span><br><span class="line">    livereload = require(<span class="string">'gulp-livereload'</span>),        // 引入 &lt;livereload&gt; 模块可以自动刷新浏览器</span><br><span class="line">    autoprefixer = require(<span class="string">'gulp-autoprefixer'</span>),    //css3前缀自动补全</span><br><span class="line">    minifycss = require(<span class="string">'gulp-minify-css'</span>),	        // 引入 &lt;css压缩&gt; 模块</span><br><span class="line">    concat = require(<span class="string">'gulp-concat'</span>),		      // 文件合并</span><br><span class="line">    rename = require(<span class="string">'gulp-rename'</span>),		  // 文件更名</span><br><span class="line">    uglify = require(<span class="string">'gulp-uglify'</span>);		// js丑化</span><br></pre></td></tr></table></figure></p>
 <p>开始写新任务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 这里我们写一个名为 style 的任务</span><br><span class="line">gulp.task(<span class="string">'style'</span>, <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> gulp.src(<span class="string">'src/less/*.less'</span>)</span><br><span class="line">        .pipe(less())</span><br><span class="line">        .pipe(autoprefixer(<span class="string">'last 2 version'</span>, <span class="string">'safari 5'</span>, <span class="string">'ie 8'</span>, <span class="string">'ie 9'</span>, <span class="string">'opera 12.1'</span>, <span class="string">'ios 6'</span>, <span class="string">'android 4'</span>))</span><br><span class="line">        .pipe(rename(&#123;suffix: <span class="string">'.min'</span>&#125;))</span><br><span class="line">        .pipe(minifycss())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'dist/css'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 <p>这是 gulp 的管道语法，回调函数中直接 return，return 后面则是链式调用 gulp。先指定入口文件夹为 根目录下的 src/less/ 下所有的 less 文件（*.less代表选中所有后缀为.less的文件）。<br>接着 pipe()函数中写执行的动作，依次是<br> less() （编将ess文件编译为css）、<br> autoprefixer() （自动补全css3前缀）、<br> rename() （将新生成的css重命名，添加后缀.min）、<br> minifycss() （压缩css）<br> 最后输出到 dist/css文件夹中，完成。</p>
@@ -364,6 +367,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/11/29/web-audio-api/" rel="prev" title="web audio api">
+                web audio api <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -454,7 +461,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/blog/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -462,7 +469,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/blog/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -471,7 +478,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zenaro的音乐素材</title>
+    <style>
+        html, body { height: 100%; min-height: 300px;}
+        html, body, ul, li, h1, h2, h3, p, dl, dt, dd {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", "Times New Roman", Georgia, Serif;
+        }
+        a { color: inherit; text-decoration: none; display: block;}
+        img { width: 100%; display: block;}
+        header, footer {
+            width: 100%;
+            height: 70px;
+            line-height: 70px;
+            min-width: 900px;
+            position: fixed;
+            left: 0;
+            z-index: 1;
+        }
+        header {
+            top: 0;
+            background: #E8FCF7;
+        }
+        footer {
+            background: #FAFAF5;
+            bottom: 0;
+        }
+        header .center, footer .center {
+            width: 900px;
+            margin: 0 auto;
+        }
+        header .center h1 {
+            float: left;
+            font-weight: bolder;
+            font-size: 24px;
+            color: #0F6C3E;
+        }
+        header .center ul {
+            font-size: 16px;
+            list-style: none;
+            float: right;
+        }
+        header .center ul li {
+            float: left;
+            margin: 0 1px;
+        }
+        header .center ul li a {
+            padding: 0 15px;
+            display: block;
+        }
+        header .center ul li a:hover {
+            background: #DBFAF0;
+        }
+        section {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            text-align: center;
+            background: #F2FAF7;
+            border-top: solid 1px #eee;
+            border-bottom: solid 1px #eee;
+            box-sizing: border-box;
+            display: table;
+        }
+        section .center {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        section .center dl {
+            width: 300px;
+            display: inline-block;
+            text-align: left;
+            padding: 0 15px;
+        }
+        section .center dl dd h4 {
+            margin: 10px 0 5px 0;
+            font-size: 18px;
+        }
+        section h2 {
+            font-size: 30px;
+            font-weight: 300;
+            line-height: 60px;
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+        }
+        section canvas {
+            top: 0;
+            left: 50%;
+            margin-left: -500px;
+            position: absolute;
+            width: 1000px;
+            height: 100%;
+            z-index: -1;
+        }
+        input {
+            outline: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+                 -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+        input:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="center">
+        <h1><a href="http://zenaro.github.io">Zenaro.github.io</a></h1>
+        <ul class="nav">
+            <li><a href="http://zenaro.github.io/blog/index.html" class="active">个人博客</a></li>
+            <li><a href="http://zenaro.github.io/CloudMusic/index.html">V.3.0-云音乐</a></li>
+            <li><a href="http://zenaro.github.io/Music-Effect/index.html">V.4.0-前端音频</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="center">
+        <!-- <h2>音乐素材-前端</h2>
+        <a href="http://zenaro.github.io/Music-Effect/index.html">前往音频首页</a> -->
+        <dl>
+            <dt>
+                <a href="http://zenaro.github.io/blog/index.html">
+                    <img src="http://p3.music.126.net/4F_X5wv5cA-VTQtEzGjoNQ==/7724069186278104.jpg?param=34y34" alt="">
+                </a>
+            </dt>
+            <dd>
+                <h4>个人博客</h4>
+                <p>记录日常笔记，相关技术文档整理与收藏。</p>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <a href="http://zenaro.github.io/blog/index.html">
+                    <img src="http://p3.music.126.net/4F_X5wv5cA-VTQtEzGjoNQ==/7724069186278104.jpg?param=34y34" alt="">
+                </a>
+            </dt>
+            <dd>
+                <h4>CloudMusic 3.0</h4>
+                <p>CloudMusic Version 3.0，单前端展示（除去后台数据拉取）</p>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <a href="http://zenaro.github.io/blog/index.html">
+                    <img src="http://p3.music.126.net/4F_X5wv5cA-VTQtEzGjoNQ==/7724069186278104.jpg?param=34y34" alt="">
+                </a>
+            </dt>
+            <dd>
+                <h4>CloudMusic 4.0</h4>
+                <p>CloudMusic Version 4.0，前端音频解码与音效处理（Web audio api）</p>
+            </dd>
+        </dl>
+    </div>
+    <canvas></canvas>
+</section>
+<footer>
+    <div class="center">
+        <p>©copyright 版权所有 zenaro.github.io</p>
+    </div>
+</footer>
+</body>
+</html>
