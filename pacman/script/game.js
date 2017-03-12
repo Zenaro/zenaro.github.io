@@ -58,8 +58,8 @@ var Game = {
 
 		// 画果实
 		var start = this.cell / 2 + this.origin,
-			xLength = this.width - 10,
-			yLength = this.height - 10,
+			xLength = this.width - this.origin,
+			yLength = this.height - this.origin,
 			cell = this.cell;
 		for (var i = start; i < xLength; i += cell) {
 			for (var j = start; j < yLength; j += cell) {
@@ -84,14 +84,13 @@ var Game = {
 		this.heroInfo.x = this.width / 2;
 		this.heroInfo.y = this.height / 2;
 		this.drawHero(this.heroInfo.x, this.heroInfo.y);
-
 		// 画随机禁区
 		for (var i = start; i < xLength; i += cell) {
 			for (var j = start; j < yLength; j += cell) {
 				if (Math.random() > 0.65 && // 随机产生矩形，但不能与人物位置冲突
-					(i !== this.heroInfo.x && j !== this.heroInfo.y) &&
-					(i !== this.monsterInfo.x && j !== this.monsterInfo.y)) {
-
+					(i !== this.heroInfo.x || j !== this.heroInfo.y) &&
+					(i !== this.monsterInfo.x || j !== this.monsterInfo.y)) {
+					console.log(i);
 					this.forbiddenArea[i][j] = true;
 					this.fruits[i][j] = false;
 					this.count--;
@@ -103,12 +102,6 @@ var Game = {
 		// 设置通关门槛
 		this.overall = ~~(this.count * 0.2);
 		document.getElementById('overall').innerHTML = this.overall;
-	},
-
-	// 设置得分
-	setScore: function(score) {
-		this.score = score;
-		document.getElementById('score').innerHTML = score;
 	},
 
 	// 键盘事件绑定
@@ -171,6 +164,16 @@ var Game = {
 			ctx = this.canvasCtx,
 			dir = this.monsterInfo.dir;
 
+		if (y < this.heroInfo.y) {
+			this.monsterInfo.dir = 'bottom';
+		} else if (y > this.heroInfo.y) {
+			this.monsterInfo.dir = 'top';
+		} else if (x < this.heroInfo.x) {
+			this.monsterInfo.dir = 'right';
+		} else if (x > this.heroInfo.x) {
+			this.monsterInfo.dir = 'left';
+		}
+
 		if (rand < 0.25) {
 			dir = 'left';
 
@@ -185,7 +188,7 @@ var Game = {
 		}
 
 		// 有较小的概率改变方向
-		if (Math.random() > 0.5) {
+		if (Math.random() > 0.7) {
 			this.monsterInfo.dir = dir;
 		}
 		this.monsterEat(this.monsterInfo.dir);
