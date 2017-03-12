@@ -36,6 +36,7 @@ var Game = {
 
 	// 渲染
 	render: function() {
+		this.canvasCtx.clearRect(0, 0, this.width, this.height);
 		// 画容器外边框
 		this.drawRect(this.canvasCtx, this.origin - 8, this.origin - 8, this.width, this.height, 15);
 
@@ -168,7 +169,7 @@ var Game = {
 			if (this.count <= 0) {
 				window.alert('胜利!');
 				this.timer && clearInterval(this.timer);
-				// this.init();
+				this.init();
 			}
 		}
 	},
