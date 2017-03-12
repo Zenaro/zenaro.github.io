@@ -337,14 +337,14 @@ var Game = {
 	heroEat: function(x, y) {
 		// 吃掉本位置的果实
 		if (this.monsterInfo.x === x && this.monsterInfo.y === y) {
-			this.gameOver();
+			this.gameOver('啊被吃掉了!~');
 
 		} else if (this.fruits[x][y] === true) {
 			this.fruits[x][y] = false;
 			this.count--;
 			this.score += 1;
 			document.getElementById('score').innerHTML = this.score;
-			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall)) {
+			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall - 1)) {
 				this.gameOver('胜利！')
 			}
 		}
