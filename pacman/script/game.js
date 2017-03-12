@@ -5,29 +5,40 @@ var Game = {
 	width: 0, // 容器宽度
 	height: 0, // 容器高度
 	origin: 10, // 除去外边框, 地图从点(10, 10) 开始
-	count: 0, // 总果实数
+	count: 0, // 果实总数
+	score: 0, // 当前分数
+	overall: 0, // 通关门槛分数
 	fruits: [], // 果实2维数组，0表示该地点无果实，全部被主人公吃光时游戏胜利
 	forbiddenArea: [], // 禁区 - 2维数组
 	timer: null, // 定时器
+	monsterTimer: null, // 怪兽定时器
 	heroInfo: { // 主人公位置，方向等相关信息
 		x: 0,
 		y: 0,
 		dir: 'stop' // left, top, right, bottom, stop
 	},
+	monsterInfo: { // 怪兽位置方向等信息
+		x: 25,
+		y: 25,
+		dir: 'stop'
+	},
 
 	// 初始化参数
 	init: function() {
+		this.count = 0;
+		this.score = 0;
 		this.width = this.cell * 23 + 2 * this.origin;
 		this.height = this.cell * 7 + 2 * this.origin;
 		this.canvas = document.getElementById('myCanvas');
 		this.canvasCtx = this.canvas.getContext('2d');
-
-		// 初始化 fruits 2维数组
+		this.modalUp();
+		// 初始化 fruits 2维数组 和 禁区 2维数组
 		var start = this.cell / 2 + this.origin,
 			length = this.width,
 			cell = this.cell;
 		for (var i = start; i < length; i += cell) {
 			this.fruits[i] = [];
+			this.forbiddenArea[i] = [];
 		}
 
 		this.render();
@@ -36,38 +47,77 @@ var Game = {
 
 	// 渲染
 	render: function() {
+		// 清理画布
 		this.canvasCtx.clearRect(0, 0, this.width, this.height);
+
 		// 画容器外边框
-		this.drawRect(this.canvasCtx, this.origin - 8, this.origin - 8, this.width, this.height, 15);
+		this.drawRect(this.origin - 8, this.origin - 8, this.width, this.height, 15);
 
 		// 画容器内边框
-		this.drawRect(this.canvasCtx, this.origin - 1, this.origin - 1, this.width - 14, this.height - 14, 9);
+		this.drawRect(this.origin - 1, this.origin - 1, this.width - 14, this.height - 14, 9);
 
-		// 画小怪兽
-		this.drawMonster(this.canvasCtx, 25, 25, 'left');
-
-		// 定位主人公，并画出
-		this.heroInfo.x = this.width / 2;
-		this.heroInfo.y = this.height / 2;
-		this.drawHero(this.canvasCtx, this.heroInfo.x, this.heroInfo.y);
-
+		// 画果实
 		var start = this.cell / 2 + this.origin,
 			xLength = this.width - 10,
 			yLength = this.height - 10,
 			cell = this.cell;
-		// for (var i = start; i < xLength; i += cell) {
 		for (var i = start; i < xLength; i += cell) {
-			for (var j = start + cell * 5; j < yLength; j += cell) {
+			for (var j = start; j < yLength; j += cell) {
 				this.fruits[i][j] = true;
+				this.forbiddenArea[i][j] = false;
 				this.count++;
-				this.drawDot(this.canvasCtx, i, j);
+				this.drawDot(i, j);
 			}
 		}
+
+		// 画小怪兽
+		this.monsterInfo.x = 25;
+		this.monsterInfo.y = 25;
+		this.drawMonster(25, 25, 'right');
+
+		// 开启小怪兽跑步定时器
+		this.monsterTimer = setInterval(() => {
+			this.monsterRun();
+		}, 800);
+
+		// 定位主人公，并画出
+		this.heroInfo.x = this.width / 2;
+		this.heroInfo.y = this.height / 2;
+		this.drawHero(this.heroInfo.x, this.heroInfo.y);
+
+		// 画随机禁区
+		for (var i = start; i < xLength; i += cell) {
+			for (var j = start; j < yLength; j += cell) {
+				if (Math.random() > 0.65 && // 随机产生矩形，但不能与人物位置冲突
+					(i !== this.heroInfo.x && j !== this.heroInfo.y) &&
+					(i !== this.monsterInfo.x && j !== this.monsterInfo.y)) {
+
+					this.forbiddenArea[i][j] = true;
+					this.fruits[i][j] = false;
+					this.count--;
+					this.drawRect(i - this.cell / 2 + 2, j - this.cell / 2 + 2, this.cell - 4, this.cell - 4, 3);
+				}
+			}
+		}
+
+		// 设置通关门槛
+		this.overall = ~~(this.count * 0.2);
+		document.getElementById('overall').innerHTML = this.overall;
+	},
+
+	// 设置得分
+	setScore: function(score) {
+		this.score = score;
+		document.getElementById('score').innerHTML = score;
 	},
 
 	// 键盘事件绑定
 	bind: function() {
 		var self = this;
+		// 由于只有此处用到事件，故直接使用onkeydown而不封装事件Util效果更好
+		document.getElementById('btn-restart').onclick = function() {
+			self.init();
+		}
 		document.body.onkeydown = function(event) {
 			var e = event || window.event;
 			var dir = 'left';
@@ -99,10 +149,133 @@ var Game = {
 		}
 	},
 
-	// 走一步相应的连帧动画 及相关操作
-	motion: function(ctx, dir) {
+	// 越界检查
+	overstep: function(fromX, fromY, dir) {
+		if ((dir === 'left' && fromX - this.cell > this.origin && !this.forbiddenArea[fromX - this.cell][fromY]) ||
+			(dir === 'right' && fromX + this.cell < this.width - this.origin && !this.forbiddenArea[fromX + this.cell][fromY]) ||
+			(dir === 'top' && fromY - this.cell > this.origin && !this.forbiddenArea[fromX][fromY - this.cell]) ||
+			(dir === 'bottom' && fromY + this.cell < this.height - this.origin && !this.forbiddenArea[fromX][fromY + this.cell])) {
+
+			return false; // 未越界
+
+		} else {
+			return true;
+		}
+	},
+
+	// 小怪兽跑步
+	monsterRun: function() {
+		var x = this.monsterInfo.x,
+			y = this.monsterInfo.y,
+			rand = Math.random(),
+			ctx = this.canvasCtx,
+			dir = this.monsterInfo.dir;
+
+		if (rand < 0.25) {
+			dir = 'left';
+
+		} else if (rand < 0.5) {
+			dir = 'right';
+
+		} else if (rand < 0.75) {
+			dir = 'top';
+
+		} else {
+			dir = 'bottom';
+		}
+
+		// 有较小的概率改变方向
+		if (Math.random() > 0.5) {
+			this.monsterInfo.dir = dir;
+		}
+		this.monsterEat(this.monsterInfo.dir);
+
+		if (this.overstep(x, y, this.monsterInfo.dir)) { // 越界则直接修改方向
+			this.monsterInfo.dir = dir;
+
+		} else {
+			ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
+			if (this.fruits[x][y] === true) {
+				this.drawDot(x, y);
+			}
+			switch (this.monsterInfo.dir) {
+				case 'left':
+					this.drawMonster(x - this.cell, y, this.monsterInfo.dir);
+					this.monsterInfo.x = x - this.cell;
+					break;
+				case 'right':
+					this.drawMonster(x + this.cell, y, this.monsterInfo.dir);
+					this.monsterInfo.x = x + this.cell;
+					break;
+				case 'top':
+					this.drawMonster(x, y - this.cell, this.monsterInfo.dir);
+					this.monsterInfo.y = y - this.cell;
+					break;
+				case 'bottom':
+					this.drawMonster(x, y + this.cell, this.monsterInfo.dir);
+					this.monsterInfo.y = y + this.cell;
+					break;
+				default:
+					console.log('stop');
+			}
+		}
+	},
+
+	// 怪兽移动一步相应的连帧动画
+	monsterMotion: function(dir) {
+
+	},
+
+	// 怪兽吃人
+	monsterEat: function(dir) {
+		var cell = this.cell,
+			monsX = this.monsterInfo.x,
+			monsY = this.monsterInfo.y,
+			heroX = this.heroInfo.x,
+			heroY = this.heroInfo.y;
+
+		if (
+			(dir === 'left' && (monsX === heroX ||
+				monsX - cell === heroX) && monsY === heroY) ||
+
+			(dir === 'right' && (monsX === heroX ||
+				monsX + cell === heroX) && monsY === heroY) ||
+
+			(dir === 'top' && (monsY === heroY ||
+				monsY - cell === heroY) && monsX === heroX) ||
+
+			(dir === 'bottom' && (monsY === heroY ||
+				monsY + cell === heroY) && monsX === heroX)
+		) {
+
+			this.gameOver('啊被吃掉了!~');
+		}
+	},
+
+	gameOver: function(context) {
+		this.modalDown(context);
+		this.monsterTimer && clearInterval(this.monsterTimer);
+		this.timer && clearInterval(this.timer);
+	},
+
+	/*
+	 * @con: 弹窗内容
+	 */
+	modalDown: function(con) {
+		var content = typeof con === 'string' ? con : '游戏结束了';
+		document.getElementById('modal-content').innerHTML = content;
+		document.getElementById('dialog').style.display = 'block';
+	},
+
+	modalUp: function() {
+		document.getElementById('dialog').style.display = 'none';
+	},
+
+	// 主人公走一步相应的连帧动画 及相关操作
+	heroMotion: function(dir) {
 		var x = this.heroInfo.x,
-			y = this.heroInfo.y;
+			y = this.heroInfo.y,
+			ctx = this.canvasCtx;
 		if (this.overstep(x, y, dir) === true) { // 已越界
 			this.timer && clearInterval(this.timer);
 			return;
@@ -111,10 +284,10 @@ var Game = {
 		if (dir === 'left') {
 			setTimeout(() => {
 				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(ctx, x - this.cell / 2, y);
+				this.drawHeroFull(x - this.cell / 2, y);
 				setTimeout(() => {
 					ctx.clearRect(x - this.cell, y - this.cell / 2, this.cell, this.cell);
-					this.drawHero(ctx, x - this.cell, y, 'left');
+					this.drawHero(x - this.cell, y, 'left');
 					this.heroInfo.x = x - this.cell;
 					this.heroInfo.dir = 'left';
 				}, 100);
@@ -123,10 +296,10 @@ var Game = {
 		} else if (dir === 'right') {
 			setTimeout(() => {
 				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(ctx, x + this.cell / 2, y);
+				this.drawHeroFull(x + this.cell / 2, y);
 				setTimeout(() => {
 					ctx.clearRect(x, y - this.cell / 2, this.cell, this.cell);
-					this.drawHero(ctx, x + this.cell, y, 'right');
+					this.drawHero(x + this.cell, y, 'right');
 					this.heroInfo.x = x + this.cell;
 					this.heroInfo.dir = 'right';
 				}, 100);
@@ -135,10 +308,10 @@ var Game = {
 		} else if (dir === 'top') {
 			setTimeout(() => {
 				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(ctx, x, y - this.cell / 2);
+				this.drawHeroFull(x, y - this.cell / 2);
 				setTimeout(() => {
 					ctx.clearRect(x - this.cell / 2, y - this.cell, this.cell, this.cell);
-					this.drawHero(ctx, x, y - this.cell, 'top');
+					this.drawHero(x, y - this.cell, 'top');
 					this.heroInfo.y = y - this.cell;
 					this.heroInfo.dir = 'top';
 				}, 100);
@@ -147,10 +320,10 @@ var Game = {
 		} else if (dir === 'bottom') {
 			setTimeout(() => {
 				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(ctx, x, y + this.cell / 2);
+				this.drawHeroFull(x, y + this.cell / 2);
 				setTimeout(() => {
 					ctx.clearRect(x - this.cell / 2, y, this.cell, this.cell);
-					this.drawHero(ctx, x, y + this.cell, 'bottom');
+					this.drawHero(x, y + this.cell, 'bottom');
 					this.heroInfo.y = y + this.cell;
 					this.heroInfo.dir = 'bottom';
 				}, 100);
@@ -159,32 +332,21 @@ var Game = {
 
 	},
 
-	// 动作 “吃”的相关逻辑
-	// 若点(x, y)上有果实，则吃掉，并判断是否结束游戏
-	eat: function(x, y) {
+	// 主人公动作 “吃”的相关逻辑
+	// 若点(x, y)上有果实，则吃掉，同时判断是否结束游戏，若点上是怪兽则失败
+	heroEat: function(x, y) {
 		// 吃掉本位置的果实
-		if (this.fruits[x][y] === true) {
+		if (this.monsterInfo.x === x && this.monsterInfo.y === y) {
+			this.gameOver();
+
+		} else if (this.fruits[x][y] === true) {
 			this.fruits[x][y] = false;
 			this.count--;
-			if (this.count <= 0) {
-				window.alert('胜利!');
-				this.timer && clearInterval(this.timer);
-				this.init();
+			this.score += 1;
+			document.getElementById('score').innerHTML = this.score;
+			if (this.count <= 0 || (this.overall > 0 && this.score > this.overall)) {
+				this.gameOver('胜利！')
 			}
-		}
-	},
-
-	// 越界检查
-	overstep: function(fromX, fromY, dir) {
-		if ((dir === 'left' && fromX - this.cell > this.origin) ||
-			(dir === 'right' && fromX + this.cell < this.width - this.origin) ||
-			(dir === 'top' && fromY - this.cell > this.origin) ||
-			(dir === 'bottom' && fromY + this.cell < this.height - this.origin)) {
-
-			return false; // 未越界
-
-		} else {
-			return true;
 		}
 	},
 
@@ -199,28 +361,27 @@ var Game = {
 		if (this.overstep(fromX, fromY, dir) === false) { // 未越界
 
 			// 先执行一步，以消解延时
-			// this.timer = setInterval(this.motion.bind(this, this.canvasCtx, dir), 1000);
 			this.timer = setInterval(() => {
-				this.motion(this.canvasCtx, dir);
+				this.heroMotion(dir);
 			}, 300);
 
 		} else { // 越界则只修改方向
 			this.timer && clearInterval(this.timer);
-			this.drawHero(this.canvasCtx, fromX, fromY, dir);
+			this.drawHero(fromX, fromY, dir);
 		}
-		// this.timer = setInterval(this.motion, 1000);
 	},
 
 	/*
 	 * 绘制圆角矩形的函数
-	 * @ctx: canvas上下文对象
 	 * @x: 起点x坐标
 	 * @y: 起点y坐标
 	 * @width: 矩形宽
 	 * @height: 矩形高
 	 * @radius: border-radius
 	 */
-	drawRect: function(ctx, x, y, width, height, radius) {
+	drawRect: function(x, y, width, height, radius) {
+		var ctx = this.canvasCtx;
+		ctx.clearRect(x, y, width, height);
 		ctx.beginPath();
 		ctx.moveTo(x, y + radius);
 		ctx.lineTo(x, y + height - radius);
@@ -237,23 +398,23 @@ var Game = {
 
 	/*
 	 * 描点的函数
-	 * @ctx: canvas上下文对象
 	 * @x: 点中心x坐标
 	 * @y: 点中心y坐标
 	 */
-	drawDot: function(ctx, x, y) {
-		ctx.fillRect(x - 2, y - 2, 4, 4);
+	drawDot: function(x, y) {
+		this.canvasCtx.fillRect(x - 2, y - 2, 4, 4);
 	},
 
 	/*
 	 * 绘制主人公的函数
-	 * @ctx: canvas上下文对象
 	 * @x: 中心点x坐标
 	 * @y: 中心点y坐标
 	 * @direction: 主人公的嘴巴方向
 	 */
-	drawHero: function(ctx, x, y, direction) {
-		var radius = this.cell / 2;
+	drawHero: function(x, y, direction) {
+		var radius = this.cell / 2,
+			ctx = this.canvasCtx;
+
 		ctx.clearRect(x - radius, y - radius, 2 * radius, 2 * radius); // 先擦除内部
 		ctx.beginPath();
 
@@ -275,17 +436,18 @@ var Game = {
 		ctx.fill(); // color填充
 
 		ctx.closePath();
-		this.eat(x, y);
+		this.heroEat(x, y);
 	},
 
 	/*
 	 * 绘制主人公闭上嘴巴的函数，动画用
-	 * @ctx: canvas上下文对象
 	 * @x: 中心点x坐标
 	 * @y: 中心点y坐标
 	 */
-	drawHeroFull: function(ctx, x, y) {
-		var radius = this.cell / 2;
+	drawHeroFull: function(x, y) {
+		var radius = this.cell / 2,
+			ctx = this.canvasCtx;
+
 		ctx.clearRect(x - radius, y - radius, 2 * radius, 2 * radius); // 先擦除内部
 		ctx.beginPath();
 		ctx.arc(x, y, radius, 0, Math.PI * 2, false);
@@ -298,12 +460,12 @@ var Game = {
 	/*
 	 * 绘制小怪兽的函数
 	 * 小怪兽的半径为 15
-	 * @ctx: canvas上下文对象
 	 * @x: 中心点x坐标
 	 * @y: 中心点y坐标
 	 * @direction: 主人公的眼睛方向
 	 */
-	drawMonster: function(ctx, x, y, direction) {
+	drawMonster: function(x, y, direction) {
+		var ctx = this.canvasCtx;
 		ctx.beginPath();
 
 		x ? x = x - 15 : x = 50;
@@ -362,7 +524,7 @@ var Game = {
 		// 最后画眼睛
 		ctx.fillStyle = "black";
 		// 眼球 向左看还是向右看  false, true
-		if (!direction) { // 左
+		if (direction === 'left' || direction === 'top') { // 左
 			ctx.beginPath();
 			ctx.arc(x + 18, y - 14, 2, 0, Math.PI * 2, true);
 			ctx.fill();
