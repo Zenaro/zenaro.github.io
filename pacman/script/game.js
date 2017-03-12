@@ -87,7 +87,7 @@ var Game = {
 		// 画随机禁区
 		for (var i = start; i < xLength; i += cell) {
 			for (var j = start; j < yLength; j += cell) {
-				if (Math.random() > 0.65 && // 随机产生矩形，但不能与人物位置冲突
+				if (Math.random() > 0.75 && // 随机产生矩形，但不能与人物位置冲突
 					(i !== this.heroInfo.x || j !== this.heroInfo.y) &&
 					(i !== this.monsterInfo.x || j !== this.monsterInfo.y)) {
 					console.log(i);
@@ -188,7 +188,7 @@ var Game = {
 		}
 
 		// 有较小的概率改变方向
-		if (Math.random() > 0.7) {
+		if (Math.random() > 0.6) {
 			this.monsterInfo.dir = dir;
 		}
 		this.monsterEat(this.monsterInfo.dir);
