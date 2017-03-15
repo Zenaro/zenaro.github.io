@@ -365,67 +365,42 @@ var Game = {
 
 	// 主人公走一步相应的连帧动画 及相关操作
 	heroMotion: function(dir) {
-		var x = this.heroInfo.x,
-			y = this.heroInfo.y,
+		var fromX = this.heroInfo.x, // 从(fromX, fromY)出发，到(toX, toY)
+			fromY = this.heroInfo.y,
+			toX = fromX,
+			toY = fromY, // 
+			cell = this.cell, // 单位
+			interval = 100, // 动画的时间差 100ms
 			ctx = this.canvasCtx;
-		if (this.overstep(x, y, dir) === true) { // 已越界
+		if (this.overstep(fromX, fromY, dir) === true) { // 已越界
 			this.timer && clearInterval(this.timer);
+			this.drawHero(fromX, fromY, dir);
 			this.heroInfo.finish = true;
 			return;
 		}
 		this.heroInfo.finish = false;
 		if (dir === 'left') {
-			setTimeout(() => {
-				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(x - this.cell / 2, y);
-				setTimeout(() => {
-					ctx.clearRect(x - this.cell, y - this.cell / 2, this.cell, this.cell);
-					this.drawHero(x - this.cell, y, 'left');
-					this.heroInfo.x = x - this.cell;
-					this.heroInfo.dir = 'left';
-					this.heroInfo.finish = true;
-				}, 100);
-			}, 100);
-
+			toX = fromX - cell;
 		} else if (dir === 'right') {
-			setTimeout(() => {
-				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(x + this.cell / 2, y);
-				setTimeout(() => {
-					ctx.clearRect(x, y - this.cell / 2, this.cell, this.cell);
-					this.drawHero(x + this.cell, y, 'right');
-					this.heroInfo.x = x + this.cell;
-					this.heroInfo.dir = 'right';
-					this.heroInfo.finish = true;
-				}, 100);
-			}, 100);
-
+			toX = fromX + cell;
 		} else if (dir === 'top') {
-			setTimeout(() => {
-				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(x, y - this.cell / 2);
-				setTimeout(() => {
-					ctx.clearRect(x - this.cell / 2, y - this.cell, this.cell, this.cell);
-					this.drawHero(x, y - this.cell, 'top');
-					this.heroInfo.y = y - this.cell;
-					this.heroInfo.dir = 'top';
-					this.heroInfo.finish = true;
-				}, 100);
-			}, 100);
-
+			toY = fromY - cell;
 		} else if (dir === 'bottom') {
-			setTimeout(() => {
-				ctx.clearRect(x - this.cell / 2, y - this.cell / 2, this.cell, this.cell);
-				this.drawHeroFull(x, y + this.cell / 2);
-				setTimeout(() => {
-					ctx.clearRect(x - this.cell / 2, y, this.cell, this.cell);
-					this.drawHero(x, y + this.cell, 'bottom');
-					this.heroInfo.y = y + this.cell;
-					this.heroInfo.dir = 'bottom';
-					this.heroInfo.finish = true;
-				}, 100);
-			}, 100);
+			toY = fromY + cell;
 		}
+
+		setTimeout(() => {
+			ctx.clearRect(fromX - this.cell / 2, fromY - this.cell / 2, this.cell, this.cell);
+			this.drawHeroFull((fromX + toX) / 2, (fromY + toY) / 2);
+			setTimeout(() => {
+				ctx.clearRect((fromX + toX) / 2 - cell / 2, (fromY + toY) / 2 - cell / 2, cell, cell);
+				this.drawHero(toX, toY, dir);
+				this.heroInfo.x = toX;
+				this.heroInfo.y = toY;
+				this.heroInfo.dir = dir;
+				this.heroInfo.finish = true;
+			}, interval);
+		}, interval);
 	},
 
 	// 主人公动作 “吃”的相关逻辑
@@ -453,15 +428,16 @@ var Game = {
 
 		var fromX = this.heroInfo.x,
 			fromY = this.heroInfo.y;
+		// if (!this.heroInfo.finish) return;
 
-		if (this.overstep(fromX, fromY, dir) === false) { // 未越界
+		if (this.overstep(fromX, fromY, dir) === false || !this.heroInfo.finish) { // 未越界或动作未完成
 
 			// 先执行一步，以消解延时
 			this.timer && clearInterval(this.timer);
 			// this.heroMotion(dir);
 			this.timer = setInterval(() => {
 				this.heroInfo.finish && this.heroMotion(dir);
-			}, 50);
+			}, 60);
 
 
 		} else { // 越界则只修改方向
