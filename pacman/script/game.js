@@ -12,6 +12,7 @@ var Game = {
 	forbiddenArea: [], // 禁区 - 2维数组
 	timer: null, // 定时器
 	monsterTimer: null, // 怪兽定时器
+	overFlag: false, // 游戏结束
 	heroInfo: { // 主人公位置，方向等相关信息
 		x: 0,
 		y: 0,
@@ -29,6 +30,7 @@ var Game = {
 	init: function() {
 		this.count = 0;
 		this.score = 0;
+		this.overFlag = false;
 		this.width = this.cell * 23 + 2 * this.origin;
 		this.height = this.cell * 7 + 2 * this.origin;
 		this.canvas = document.getElementById('myCanvas');
@@ -113,6 +115,9 @@ var Game = {
 			self.init();
 		}
 		document.body.onkeydown = function(event) {
+			if (self.overFlag) {
+				return;
+			}
 			var e = event || window.event;
 			var dir = 'left';
 			switch (e.keyCode) {
@@ -134,12 +139,6 @@ var Game = {
 			// if (self.heroInfo.dir !== dir) {
 			self.oneStep(dir);
 			// }
-		}
-		document.body.onkeyup = function() {
-			// setTimeout(function() {
-			// 	self.heroInfo.dir = 'stop';
-			// 	self.timer && clearInterval(self.timer);
-			// }, 0);
 		}
 	},
 
@@ -164,8 +163,8 @@ var Game = {
 			ctx = this.canvasCtx,
 			dir = this.monsterInfo.dir;
 
-		if (this.monsterInfo.discover && (x === this.heroInfo.x || y === this.heroInfo.y)) { // 发现猎物
-
+		// 发现猎物
+		if (this.monsterInfo.discover && (x === this.heroInfo.x || y === this.heroInfo.y)) {
 
 		} else if (x === this.heroInfo.x) {
 			var i = y,
@@ -224,7 +223,7 @@ var Game = {
 			this.monsterInfo.discover = false;
 		}
 
-		if (!this.monsterInfo.discover) {
+		if (!this.monsterInfo.discover) { // 未发现猎物则随机走位
 			var rand = Math.random();
 			if (rand < 0.25) {
 				dir = 'left';
@@ -345,6 +344,7 @@ var Game = {
 	},
 
 	gameOver: function(context) {
+		this.overFlag = true;
 		this.modalDown(context);
 		this.monsterTimer && clearInterval(this.monsterTimer);
 		this.timer && clearInterval(this.timer);
