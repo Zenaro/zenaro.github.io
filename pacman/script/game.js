@@ -94,6 +94,7 @@ var Game = {
 				if (Math.random() > 0.85 && // 随机产生矩形，但不能与人物位置冲突
 					(i !== this.heroInfo.x || j !== this.heroInfo.y) &&
 					(i !== this.monsterInfo.x || j !== this.monsterInfo.y)) {
+
 					this.forbiddenArea[i][j] = true;
 					this.fruits[i][j] = false;
 					this.count--;
@@ -110,7 +111,7 @@ var Game = {
 	// 键盘事件绑定
 	bind: function() {
 		var self = this;
-		// 由于只有此处用到事件，故直接使用onkeydown而不封装事件Util效果更好
+		// 由于只有此处用到事件，直接使用onkeydown即可
 		document.getElementById('btn-restart').onclick = function() {
 			self.init();
 		}
@@ -136,9 +137,7 @@ var Game = {
 				default:
 					dir = self.heroInfo.dir;
 			}
-			// if (self.heroInfo.dir !== dir) {
 			self.oneStep(dir);
-			// }
 		}
 	},
 
@@ -165,6 +164,7 @@ var Game = {
 
 		// 发现猎物
 		if (this.monsterInfo.discover && (x === this.heroInfo.x || y === this.heroInfo.y)) {
+			// 暂时不作处理
 
 		} else if (x === this.heroInfo.x) {
 			var i = y,
@@ -172,50 +172,47 @@ var Game = {
 				length = this.heroInfo.y;
 
 			if (y < this.heroInfo.y) {
-				for (; i < length; i += cell) {
-					if (this.forbiddenArea[x][i]) {
-						this.monsterInfo.discover = false;
-						break;
-					} else if (i === length - this.cell) {
-						this.monsterInfo.dir = 'bottom';
-						this.monsterInfo.discover = true;
-					}
-				}
+				i = y;
+				length = this.heroInfo.y;
+				dir = 'bottom';
+
 			} else {
-				for (; i > length; i -= cell) {
-					if (this.forbiddenArea[x][i]) {
-						this.monsterInfo.discover = false;
-						break;
-					} else if (i === length + this.cell) {
-						this.monsterInfo.dir = 'top';
-						this.monsterInfo.discover = true;
-					}
+				i = this.heroInfo.y;
+				length = y;
+				dir = 'top';
+			}
+			for (; i < length; i += cell) {
+				if (this.forbiddenArea[x][i]) {
+					this.monsterInfo.discover = false;
+					break;
+				} else if (i === length - this.cell) {
+					this.monsterInfo.dir = dir;
+					this.monsterInfo.discover = true;
 				}
 			}
 
 		} else if (y === this.heroInfo.y) {
-			var i = x,
-				cell = this.cell,
-				length = this.heroInfo.x;
+			var i,
+				dir,
+				length,
+				cell = this.cell;
+
 			if (x < this.heroInfo.x) {
-				for (; i < length; i += cell) {
-					if (!!this.forbiddenArea[i][y]) {
-						this.monsterInfo.discover = false;
-						break;
-					} else if (i === length - this.cell) {
-						this.monsterInfo.dir = 'right';
-						this.monsterInfo.discover = true;
-					}
-				}
+				i = x;
+				length = this.heroInfo.x;
+				dir = 'right';
 			} else {
-				for (; i > length; i -= cell) {
-					if (!!this.forbiddenArea[i][y]) {
-						this.monsterInfo.discover = false;
-						break;
-					} else if (i === length + this.cell) {
-						this.monsterInfo.dir = 'left';
-						this.monsterInfo.discover = true;
-					}
+				i = this.heroInfo.x;
+				length = x;
+				dir = 'left';
+			}
+			for (; i < length; i += cell) {
+				if (!!this.forbiddenArea[i][y]) {
+					this.monsterInfo.discover = false;
+					break;
+				} else if (i === length - this.cell) {
+					this.monsterInfo.dir = dir;
+					this.monsterInfo.discover = true;
 				}
 			}
 
@@ -421,7 +418,7 @@ var Game = {
 		}
 	},
 
-	// 转移方向, 是否走一步的越界检查
+	// hero转移方向, 是否走一步的越界检查
 	oneStep: function(dir) {
 		this.heroInfo.dir = dir;
 		this.timer && clearInterval(this.timer);
