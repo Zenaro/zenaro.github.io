@@ -236,6 +236,130 @@
             
               
                 
+                <a class="post-title-link" href="/blog/2016/11/29/web-audio-api/" itemprop="url">
+                  web audio api 前端音效处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-29T20:46:27+08:00" content="2016-11-29">
+              2016-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/blog/categories/web-audio-api/" itemprop="url" rel="index">
+                    <span itemprop="name">web audio api</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/11/29/web-audio-api/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/web-audio-api/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          &nbsp; | &nbsp;
+          阅读次数
+          <span id="/blog/2016/11/29/web-audio-api/"class="leancloud_visitors" data-flag-title="web audio api 前端音效处理">
+                   &nbsp;
+                  </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Audio-API基本概念"><a href="#Audio-API基本概念" class="headerlink" title="Audio API基本概念"></a>Audio API基本概念</h2><p>Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。<br>在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是扬声器或耳机等播放器）。一个典型的audio音效工作流如下所示：</p>
+<p><img src="http://7xstax.com1.z0.glb.clouddn.com/web-audio-api.png" alt="web audio api"></p>
+<p>以上音频的实现步骤可分为：<br>1.创建音频环境上下文（Audio Context）；<br>2.在音频环境中创建音源（source），该对象可以为振荡器、Audio标签对象等等；<br>3.创建音效节点，如混响、双二阶滤波器、平移、压缩；<br>4.为音频选择一个终点（destination），如系统扬声器；<br>5.连接音源到音效节点，以及连接音效节点到终点，以构成音频播放的通路。<br>通过图示，我们可以将音频处理分解为三个节点的相连：源节点、分析和处理节点、目的节点。在中间的处理节点上，可以通过底层API实现音效，如使用BiquadFilterNode调整音色（即滤波器）、使用ChannelSplitterNode分割左右声道、使用GainNode调整增益值实现音乐的淡入淡出。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/11/29/web-audio-api/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/blog/2016/11/29/create-react-app/" itemprop="url">
                   React建站--craete-react-app
                 </a>
@@ -312,130 +436,6 @@
           <h2 id="单页面应用快速搭建"><a href="#单页面应用快速搭建" class="headerlink" title="单页面应用快速搭建"></a>单页面应用快速搭建</h2><p>使用官方推荐的Create React App是目前搭建React项目最佳的选择，它会自动在新项目下配置好程序开发和发布环境，同时还自动安装相关的优秀npm包（如babel、loader），极其方便即可实现 JavaScript ES6语法的无阻碍编写和运行。<br>nodeJS环境下全局安装create-react-app，使用它创建一个新项目，随后进入目录执行npm start即自动拉起服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install -g create-react-app</span><br><span class="line">create-react-app hello-world</span><br><span class="line"><span class="built_in">cd</span> hello-world</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/blog/2016/11/29/create-react-app/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/11/29/web-audio-api/" itemprop="url">
-                  web audio api
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-29T20:46:27+08:00" content="2016-11-29">
-              2016-11-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/blog/categories/web-audio-api/" itemprop="url" rel="index">
-                    <span itemprop="name">web audio api</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2016/11/29/web-audio-api/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/web-audio-api/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          &nbsp; | &nbsp;
-          阅读次数
-          <span id="/blog/2016/11/29/web-audio-api/"class="leancloud_visitors" data-flag-title="web audio api">
-                   &nbsp;
-                  </span>
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Audio-API基本概念"><a href="#Audio-API基本概念" class="headerlink" title="Audio API基本概念"></a>Audio API基本概念</h2><p>Audio API 提供了控制音频的一个依据，它量化了音频在web系统上的流通轨迹，使得开发者可以通过 Audio Context对象来指定多种音频的流通渠道，并且在流通的过程中实现丰富的音频处理。<br>在实现上，Audio API将音频路径量化为一个个相连的节点，音频节点通过它们的输入输出相连，形成了一道道可控的音频通路，并最终汇集在同一个目的地destination（通常是扬声器或耳机等播放器）。一个典型的audio音效工作流如下所示：</p>
-<p><img src="http://7xstax.com1.z0.glb.clouddn.com/web-audio-api.png" alt="web audio api"></p>
-<p>以上音频的实现步骤可分为：<br>1.创建音频环境上下文（Audio Context）；<br>2.在音频环境中创建音源（source），该对象可以为振荡器、Audio标签对象等等；<br>3.创建音效节点，如混响、双二阶滤波器、平移、压缩；<br>4.为音频选择一个终点（destination），如系统扬声器；<br>5.连接音源到音效节点，以及连接音效节点到终点，以构成音频播放的通路。<br>通过图示，我们可以将音频处理分解为三个节点的相连：源节点、分析和处理节点、目的节点。在中间的处理节点上，可以通过底层API实现音效，如使用BiquadFilterNode调整音色（即滤波器）、使用ChannelSplitterNode分割左右声道、使用GainNode调整增益值实现音乐的淡入淡出。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2016/11/29/web-audio-api/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
