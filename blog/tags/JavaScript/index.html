@@ -60,7 +60,7 @@
 <meta name="description" content="web前端">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Zenaro的博客">
-<meta property="og:url" content="http://zenaro.github.io/blog/tags/javaScript/index.html">
+<meta property="og:url" content="http://zenaro.github.io/blog/tags/javascript/index.html">
 <meta property="og:site_name" content="Zenaro的博客">
 <meta property="og:description" content="web前端">
 <meta name="twitter:card" content="summary">
@@ -83,7 +83,7 @@
   };
 </script>
 
-  <title> 标签: javaScript | Zenaro的博客 </title>
+  <title> 标签: javascript | Zenaro的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -215,7 +215,7 @@
   <div id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        javaScript
+        javascript
         <small>标签</small>
       </h2>
     </div>
@@ -228,9 +228,9 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/blog/2016/06/06/player/" itemprop="url">
+            <a class="post-title-link" href="/blog/2016/03/26/Hight-Performance-JavaScript/" itemprop="url">
               
-                <span itemprop="name">音乐播放器插件</span>
+                <span itemprop="name">高性能 JavaScript</span>
               
             </a>
         
@@ -238,9 +238,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-06T10:12:55+08:00"
-              content="2016-06-06" >
-          06-06
+              datetime="2016-03-26T18:38:30+08:00"
+              content="2016-03-26" >
+          03-26
         </time>
       </div>
 
@@ -307,7 +307,7 @@
           
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
@@ -548,63 +548,7 @@ $(function() {
 
 </body>
 </html>
-y')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-  
-
-
-
-
-
-  
-  
-  
-
-  
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-<script>AV.initialize("eQshvo15LHCJChGjjJbeauP8-gzGzoHsz", "wEb3dTxVKQ25PvhJSJVmSu9C");</script>
-<script>
-function showTime(Counter) {
-	var query = new AV.Query(Counter);
-	$(".leancloud_visitors").each(function() {
-		var url = $(this).attr("id").trim();
-		query.equalTo("url", url);
-		query.find({
-			success: function(results) {
-				if (results.length == 0) {
-					var content = '0 ' + $(document.getElementById(url)).text();
-					$(document.getElementById(url)).text(content);
-					return;
-				}
-				for (var i = 0; i < results.length; i++) {
-					var object = results[i];
-					var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
-					$(document.getElementById(url)).text(content);
-				}
-			},
-			error: function(object, error) {
-				console.log("Error: " + error.code + " " + error.message);
-			}
-		});
-
-	});
-}
-
-function addCount(Counter) {
-	var Counter = AV.Object.extend("Counter");
-	url = $(".leancloud_visitors").attr('id').trim();
-	title = $(".leancloud_visitors").attr('data-flag-title').trim();
-	var query = new AV.Query(Counter);
-	query.equalTo("url", url);
-	query.find({
-		success: function(results) {
-			if (results.length > 0) {
-				var counter = results[0];
+];
 				counter.fetchWhenSave(true);
 				counter.increment("time");
 				counter.save(null, {
