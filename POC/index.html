@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./style/index.css">
+</head>
+<body>
+	<h1>编译原理 -- Terminal实现</h1>
+	<div class="container">
+		<ul class="text">
+			<li v-for="item in stringList">
+				<div class="string-origin">
+					<i class="icon">></i>
+					<pre class="text-success" v-text="item.originString">
+					</pre>
+				</div>
+				<div class="string-result">
+					<i class="icon"><</i>
+					<span :class="item.type=='error'? 
+						'text-error':'text-success'" v-text="item.resultString">
+					</span>
+				</div>
+				
+			</li>
+		</ul>
+		<div class="form-control">
+			<i class="icon">></i>
+			<input type="text" v-model="inputString" v-on:keyup.13="pushData" autofocus=""/>
+		</div>
+	</div>
+	
+	<script src="./js/vue.js"></script>
+	<script src="./js/index.js"></script>
+</body>
+</html>
