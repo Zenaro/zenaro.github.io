@@ -44,7 +44,14 @@
 			 */
 			analyse: function(string) {
 				this.string = this.preprocess(string);
+				var index = this.string.indexOf("=");
+				var length = this.string.length;
 				if (this.string.indexOf("=") > 0) { // 赋值语句
+					var stringX = this.string.substring(0, index - 1);
+					var stringY = this.string.substring(index + 1);
+					this.splitString(stringY);
+					// this.formatStack();
+					return stringX + " = " + this.formatStack();
 
 				} else { // 纯粹的运算
 					this.splitString(string);
