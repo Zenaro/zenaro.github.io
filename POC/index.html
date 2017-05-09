@@ -15,18 +15,21 @@
 					<pre class="text-success" v-text="item.originString">
 					</pre>
 				</div>
-				<div class="string-result">
+				<div v-if="item.type=='success'" class="string-result text-success">
 					<i class="icon"><</i>
-					<span :class="item.type=='error'? 
-						'text-error':'text-success'" v-text="item.resultString">
+					<span v-text="item.resultString">
 					</span>
 				</div>
-				
+				<div v-else class="string-result text-error">
+					<i class="icon">×</i>
+					<span v-text="item.resultString">
+					</span>
+				</div>
 			</li>
 		</ul>
 		<div class="form-control">
 			<i class="icon">></i>
-			<input type="text" v-model="inputString" v-on:keyup.13="pushData" autofocus=""/>
+			<input type="text" v-model="inputString" v-on:keyup.13="analyse" autofocus=""/>
 		</div>
 	</div>
 	
