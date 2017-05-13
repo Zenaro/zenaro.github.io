@@ -16,7 +16,7 @@
 					</pre>
 				</div>
 				<div v-if="item.type=='success'" class="string-result text-success">
-					<i class="icon"><</i>
+					<i class="icon" v-if="item.resultString"><</i>
 					<span v-text="item.resultString">
 					</span>
 				</div>

@@ -56,7 +56,7 @@
 		 * return: true | false
 		 */
 		isNumber: function(string) {
-			var numReg = /(^\d+|\-\d+)(\.?)(\d*)$/; // 匹配数字 int和float
+			var numReg = /^(\d+|\-\d+)(\.?)(\d*)$/; // 匹配数字 int和float
 			string = this.trim(string);
 			return numReg.test(string);
 		},
@@ -82,56 +82,6 @@
 		},
 
 		/*
-		 * 判断字符串是否为singleFunc: sin (ArithExpr)
-		 * return: true | false
-		 */
-		isSingleFunc: function(string) {
-			var reg = /^sin\s*\(.+\)$|^cos\s*\(.+\)$/; // 匹配sin () 或cos();
-			string = this.trim(string);
-			return reg.test(string);
-		},
-
-		/*
-		 * 判断字符串是否为 sin (ArithExpr)
-		 * return: true | false
-		 */
-		isSin: function(string) {
-			var reg = /^sin\s*\(.+\)$/; // 匹配sin () 或cos();
-			string = this.trim(string);
-			return reg.test(string);
-		},
-
-		/*
-		 * 判断字符串是否为 cos (ArithExpr)
-		 * return: true | false
-		 */
-		isCos: function(string) {
-			var reg = /^cos\s*\(.+\)$/; // 匹配sin () 或cos();
-			string = this.trim(string);
-			return reg.test(string);
-		},
-
-		/*
-		 * 判断字符串是否为 max (ArithExpr, ArithExprList)
-		 * return: true | false
-		 */
-		isMax: function(string) {
-			var reg = /^max\s*\(.+\)$/; // 匹配sin () 或cos();
-			string = this.trim(string);
-			return reg.test(string);
-		},
-
-		/*
-		 * 判断字符串是否为multipleFunc: sin (ArithExpr)
-		 * return: true | false
-		 */
-		isMultipleFunc: function(string) {
-			var reg = /^max\s*\(.+\)$|^min\s*\(.+\)$/; // 匹配sin () 或cos();
-			string = this.trim(string);
-			return reg.test(string);
-		},
-
-		/*
 		 * 去除引号内容后，检查整个字符串是否含非法字符@#$等
 		 * @paran string
 		 * return true: 合法
@@ -141,28 +91,6 @@
 			var validReg = /^[\w\s\!\%\^\&\|\+\-\*\/\(\)\=\[\]]+$/; // 合法的所有字符
 			// 返回字符串是否合法
 			return validReg.test(string);
-		},
-
-		/*
-		 * 运算
-		 * @param opt 运算符
-		 * @param n1
-		 * @param n1
-		 * @return 
-		 */
-		calculate: function(opt, n2, n1) {
-			switch (opt) {
-				case "+":
-					return n1 + n2;
-				case "-":
-					return n1 - n2;
-				case "*":
-					return n1 * n2;
-				case "/":
-					return n1 / n2;
-				default:
-					return;
-			}
 		},
 
 		/*
@@ -176,7 +104,7 @@
 		}
 	}
 
-	// 注册进全局 window 对象中
+	// 将util注册进全局 window 对象中
 	window.UT = util;
 
 })(window);

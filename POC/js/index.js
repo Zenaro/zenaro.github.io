@@ -33,7 +33,7 @@
 				var originString = this.inputString;
 				var resultString = "";
 				try {
-					resultString = this.bnf.init("a = true ? true ? 4 : 5: 3");
+					resultString = this.bnf.init(originString);
 					prevList.push({
 						originString: originString,
 						resultString: resultString,

@@ -3,9 +3,6 @@ html, body, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dd, dt, p, pre {
 	margin: 0;
 	padding: 0;
 }
-input, textarea, .btn {
-	box-sizing: border-box;
-}
 body {
 	padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -21,10 +18,10 @@ h1 {
 }
 .container {
 	font-size: 20px;
-	padding: 15px;
+	padding: 5px 10px;
 	border: solid 1px #ddd;
 	border-radius: 4px;
-	line-height: 28px;
+	line-height: 32px;
 	color: #666;
 }
 ul {
@@ -36,7 +33,7 @@ ul {
 
 
 ul li {
-	box-sizing: border-box;
+	// box-sizing: border-box;
 	border-bottom: solid 1px #F0F0F0;
 }
 ul li pre {
@@ -55,7 +52,7 @@ ul li p.string-result {
 	font-size: 20px;
 	border: 0;
 	outline: none;
-	line-height: 26px;
+	line-height: 30px;
 }
 [v-cloak] {
 	display: none;
