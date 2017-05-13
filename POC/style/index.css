@@ -57,3 +57,6 @@ ul li p.string-result {
 	outline: none;
 	line-height: 26px;
 }
+[v-cloak] {
+	display: none;
+}

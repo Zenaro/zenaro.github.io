@@ -8,7 +8,7 @@
 <body>
 	<h1>编译原理 -- Terminal实现</h1>
 	<div class="container">
-		<ul class="text">
+		<ul class="text" v-cloak>
 			<li v-for="item in stringList">
 				<div class="string-origin">
 					<i class="icon">></i>
@@ -29,11 +29,17 @@
 		</ul>
 		<div class="form-control">
 			<i class="icon">></i>
-			<input type="text" v-model="inputString" v-on:keyup.13="analyse" autofocus=""/>
+			<!-- 13为回车，38为Up，40为Down -->
+			<input type="text" v-model="inputString" autofocus=""
+				 v-on:keyup.13="pushData"
+				 v-on:keyup.38.stop="prevCmd"
+				 v-on:keyup.40.stop="nextCmd"/>
 		</div>
 	</div>
 	
 	<script src="./js/vue.js"></script>
+	<script src="./js/bnf.js"></script>
+	<script src="./js/util.js"></script>
 	<script src="./js/index.js"></script>
 </body>
 </html>
