@@ -7,7 +7,6 @@
 			bnf: null,
 			optStack: [], // 运算符栈
 			numStack: [], // 数字栈
-			// varHash: {},
 			stringList: [], // 存储命令和结果列表
 			cmdIndex: 0, // 第n条命令
 			inputString: "",
@@ -28,7 +27,6 @@
 			 *}
 			 */
 			pushData: function() {
-				this.string = this.preProcess(this.inputString);
 				var prevList = this.stringList;
 				var originString = this.inputString;
 				var resultString = "";
@@ -48,8 +46,8 @@
 						type: 'error'
 					});
 				}
-				// 指令数++
-				this.cmdIndex++;
+				// 刷新指令数
+				this.cmdIndex = prevList.length;
 				// 将计算结果添加进视图数组中
 				this.$set('stringList', prevList); // 更新数据结构stringList
 				this.inputString = ""; // 还原input控件的内容
@@ -60,6 +58,7 @@
 			 */
 			prevCmd: function() {
 				this.cmdIndex > 0 && this.cmdIndex--;
+				if (this.stringList.length <= 0) return;
 				this.inputString = this.stringList[this.cmdIndex].originString;
 			},
 
@@ -74,27 +73,7 @@
 				} else {
 					this.inputString = "";
 				}
-			},
-
-			/*
-			 * string 引号的预处理
-			 * 将string中的引号部分用变量代替，+=号等的处理未完成
-			 * 返回预处理后的字符串
-			 * return string
-			 */
-			preProcess: function(string) {
-				var quoteReg = /\'[^']*\'|\"[^"]*\"/g; // 匹配引号中的内容
-
-				// 将string中的引号部分用变量代替
-				var key = "";
-				return string.replace(quoteReg, function(target) {
-					do {
-						key = UT.getRandString();
-					} while (key in varHash);
-					varHash[key] = target;
-					return key;
-				}.bind(this));
-			},
+			}
 		}
 	});
 
